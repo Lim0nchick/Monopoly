@@ -14,13 +14,13 @@ int main()
 	string pl2;
 	cin << pl2;
 	unsigned int dice1, dice2, d;
-	dice1 = rand()6+1; cout << "dice1 = " << dice1 << endl; 
-	dice2 = rand()6+1; cout << "dece2 = " << dice2 << endl;
+	dice1 = rand()%6+1; cout << "dice1 = " << dice1 << endl; 
+	dice2 = rand()%6+1; cout << "dice2 = " << dice2 << endl;
 	if 	(dice1>dice2) cout << pl1 << " go first" << endl;
 	else cout << pl2 << " go first" << endl;
 	do
 	{
 
-	} while (points1<10; || points2<10)
+	} while (points1<10 || points2<10);
 
 }
