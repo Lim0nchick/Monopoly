@@ -27,6 +27,13 @@ public:
 	~Cage (void){};
 };
 
+Field forward (int d, Field p)
+{
+	for (int i=0; i<d; i++)
+	{
+		p=p->Next;
+	}
+}
 
 /*class Cage
 {

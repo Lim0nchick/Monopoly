@@ -1,6 +1,6 @@
 #include <iostream>
 using namespace std;
-int chance (string text, int points)
+void chance (int points, Field p)
 {
 	int n=rand()%10+1;
 	switch (n):
@@ -8,7 +8,7 @@ int chance (string text, int points)
 		case (1):
 		{
 			cout << "get 3 points and pass to 3 cages forward" << endl;
-			/*функция для перещемения по полю (двусвязному кольцевому списку) игрока*/
+			forward(3, p);
 			points+=3;
 			break;
 		}
@@ -68,5 +68,5 @@ int chance (string text, int points)
 			break;
 		}
 	}
-	return points;
+	//return points;
 }
