@@ -13,7 +13,7 @@ int main()
 	Map << n;
 	for (int i=0; i<n; i++)
 	{
-		field[i]=rand()%4+1;
+		field[i]=rand()%1+0;
 		Map << field[i];
 	}
 	Map.close("Map.dat");
