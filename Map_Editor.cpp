@@ -1,4 +1,4 @@
-#include <iostream>
+#include <fstream>
 #include "field.h"
 using namespace std;
 
@@ -14,7 +14,7 @@ int main()
 	for (int i=0; i<n; i++)
 	{
 		field[i]=rand()%4+1;
-		Map >> field[i];
+		Map << field[i];
 	}
 	Map.close("Map.dat");
 	return 0;

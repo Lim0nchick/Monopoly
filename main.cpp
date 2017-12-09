@@ -1,55 +1,102 @@
-#include "field.h"
 #include "Cages.h"
+#include <fstream>
 #include <iostream>
 using namespace std;
 
 int main()
 {
 	srand(time(0));
+
 	unsigned short int points = 0;
+
 	unsigned short int n;
 	unsigned short field*;
 	fstream Map;
 	Map.open("Map.dat", ios::in);
 	Map >> n;
-	for (int i=0; i<n; i++)
+	for (int i=1; i<=n; i++)
 	{
 		Map >> field[i];
 	}
 	Map.close("Map.dat");
-	//File* pFile = fopen("Map.dat", "rb");
-	
 	
 	unsigned short int dice1, dice2, d;
 	dice1 = rand()%6+1; cout << "dice1 = " << dice1 << endl; 
 	dice2 = rand()%6+1; cout << "dice2 = " << dice2 << endl;
 	d = dice1 + dice2;
 	cout << d << endl;
-	//p=forward(d, );
 
 	points+=d;
 	cout << points << " points" << endl;
+
+	unsigned short CurPos;
+	unsigned short step;
 	if (d>n)
 	{
-		unsigned short a=d
-	}
+		step = d%n;
+		CurPos = step;
+	} else CurPos = d;
+
+//for (int i=0; i<n; i++)
+
 	switch (p)
 	{
 		case chance:
 		{
-			cout << pl1 << " on Chance, give and read a Chance-card" << endl;
-			chance(points);
-			break;
-		}
+			cout << "Chance, give and read a Chance-card" << endl;
+			unsigned short Card = rand()%4+1;
+			switch (Card):
+			{
+				case (1):
+				{
+					cout << "get 3 points and pass to 3 cages forward" << endl;
+			
+					points+=3;
+					if (3>n)
+					{
+						step = 3%n;
+						CurPos += step;
+					} else CurPos += 3;
+					break;
+				}
+				case (2):
+				{
+					cout << "lose 3 points and pass to 3 cages back" << endl;
+					if (3>CurPos)
+					{
+						step = 3%n;
+						CurPos -= step;
+					} else CurPos -= 3;
+					points-=3;
+					break;
+				}
+				case (3):
+				{
+					cout << "extra course" << endl;
+					dice1 = rand()%6+1; cout << "dice1 = " << dice1 << endl; 
+					dice2 = rand()%6+1; cout << "dice2 = " << dice2 << endl;
+					d = dice1 + dice2;
+					cout << d << endl;
+					p1=forward(d, p1);
+					points+=d;
+					break;
+				}
+				case (4):
+				{
+					cout << "Go to 'START'"<< endl;
+					CurPos=0;
+					break;
+				}
+			}
 		default:
 		{
 			cout << pl << " on Empty cage" << endl; 
 			break;
 		}
 	}
-	cout << pl << "has " << points1 << " points" << endl;
+	cout << points << " points" << endl;
 
-	
+	system("pause");
 	return 0;
 }
 
