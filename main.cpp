@@ -2,39 +2,58 @@
 #include "Cages.h"
 #include <iostream>
 using namespace std;
+
 int main()
 {
 	srand(time(0));
-	bool Player;
-	unsigned int points1=0;
-	unsigned int points2=0;
+	unsigned short int points = 0;
+	unsigned short int n;
+	unsigned short field*;
+	fstream Map;
+	Map.open("Map.dat", ios::in);
+	Map >> n;
+	for (int i=0; i<n; i++)
+	{
+		Map >> field[i];
+	}
+	Map.close("Map.dat");
+	//File* pFile = fopen("Map.dat", "rb");
 	
-	string pl1;
-	cout << "Input first player name:";
-	cin << pl1;
 	
-	string pl2;
-	cout << "Input second player name:";
-	cin << pl2;
-	ReadMap(); // Function for get Monopoly map from file, UNDERFINED!
-	Field *p1=start;
-	Field *p2=start;
-
-	unsigned int dice1, dice2, d;
+	unsigned short int dice1, dice2, d;
 	dice1 = rand()%6+1; cout << "dice1 = " << dice1 << endl; 
 	dice2 = rand()%6+1; cout << "dice2 = " << dice2 << endl;
-	if 	(dice1>dice2) 
-	{
-		cout << pl1 << " go first" << endl;
-		Player=true;
-	}
-	else 
-	{
-		cout << pl2 << " go first" << endl;
-		Player=false;
-	}
+	d = dice1 + dice2;
+	cout << d << endl;
+	//p=forward(d, );
 
-	do
+	points+=d;
+	cout << points << " points" << endl;
+	if (d>n)
+	{
+		unsigned short a=d
+	}
+	switch (p)
+	{
+		case chance:
+		{
+			cout << pl1 << " on Chance, give and read a Chance-card" << endl;
+			chance(points);
+			break;
+		}
+		default:
+		{
+			cout << pl << " on Empty cage" << endl; 
+			break;
+		}
+	}
+	cout << pl << "has " << points1 << " points" << endl;
+
+	
+	return 0;
+}
+
+/*do
 	{
 		dice1 = rand()%6+1; cout << "dice1 = " << dice1 << endl; 
 		dice2 = rand()%6+1; cout << "dice2 = " << dice2 << endl;
@@ -58,12 +77,6 @@ int main()
 				{
 					cout << pl1 << " on Start, get 5 points" < endl;
 					points1+=5;
-					break;
-				}
-				case fate:
-				{
-					cout << pl1 << " on Fate, give and read a Fate-card" << endl;
-					fate(); // FUCTION UNDERFINED!!!
 					break;
 				}
 				case penalty:
@@ -138,5 +151,5 @@ int main()
 	if (points1>=10)
 		cout << pl1 << " win!\nThanks for the game." << endl;
 	else cout << pl2 << " win!\nThanks for the game." << endl;
-return 0;
-}
+	return 0;
+}*/
