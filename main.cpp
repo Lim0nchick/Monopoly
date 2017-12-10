@@ -50,15 +50,16 @@ int main()
 	bool exit=false;
 	do
 	{
-		if (field[CurPos] = 0)
+		if (field[CurPos] == 0)
 		{
+			cout << "empty cage" << endl;
 			if (c_doubles != 0)
 			{
 				dice1 = rand()%6+1; cout << "dice1 = " << dice1 << endl; 
 				dice2 = rand()%6+1; cout << "dice2 = " << dice2 << endl;
 				d = dice1 + dice2;
 				cout << d << endl;
-				if (dice1=dice2)
+				if (dice1==dice2)
 				{
 					c_doubles+=1;
 					points+=d;
@@ -74,7 +75,7 @@ int main()
 			} else exit = true;	
 		}	
 
-		if (field[CurPos]=1)
+		if (field[CurPos]==1)
 		{
 				cout << "Chance, give and read a Chance-card" << endl;
 				//unsigned short Card = rand()%4+1;
@@ -109,19 +110,21 @@ int main()
 						dice2 = rand()%6+1; cout << "dice2 = " << dice2 << endl;
 						d = dice1 + dice2;
 						cout << d << endl;
+
 						if (dice1==dice2)
 							c_doubles+=1;
 						else c_doubles=0;
+
 						if (c_doubles==3)
 							exit = true;
 						else
 						{
 							points+=d;
-							if (d>n)
+							if ((CurPos+d)>n)
 							{
-								step = d%n;
+								step = (CurPos+d)%n;
 								CurPos = step;
-							} else CurPos = d;
+							} else CurPos += d;
 						}
 					}break;
 					case 4:
@@ -141,7 +144,7 @@ int main()
 		cout << CurPos << " - Current position" << endl;
 		cout << field[CurPos] << " - Type of field" << endl;
 
-	} while (exit = false);
+	} while (exit == false);
 	cout << "course end" << endl;
 	
 	//system("pause"); // for widows-family OSs
