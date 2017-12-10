@@ -20,14 +20,12 @@ int main()
 		Map >> field[CurPos];
 		cout << field[CurPos];
 	}
-	cout <<"\n\n";
+	cout << "\n\n";
 	Map.close();
 		
 	unsigned short dice1, dice2, d;
-	//dice1 = rand()%6+1; cout << "dice1 = " << dice1 << endl; 
-	//dice2 = rand()%6+1; cout << "dice2 = " << dice2 << endl;
-	dice1 = 6;
-	dice2 = 6;
+	dice1 = rand()%6+1; cout << "dice1 = " << dice1 << endl; 
+	dice2 = rand()%6+1; cout << "dice2 = " << dice2 << endl;
 
 	d = dice1 + dice2;
 	cout << d << endl;
@@ -78,8 +76,8 @@ int main()
 		if (field[CurPos]==1)
 		{
 				cout << "Chance, give and read a Chance-card" << endl;
-				//unsigned short Card = rand()%4+1;
-				unsigned short Card = 3;
+				unsigned short Card = rand()%4+1;
+				
 				switch (Card)
 				{
 					case 1:
@@ -147,7 +145,6 @@ int main()
 	} while (exit == false);
 	cout << "course end" << endl;
 	
-	//system("pause"); // for widows-family OSs
 	getchar(); // выступает в роли аналога "system("pause");"
 	return 0;
 }
