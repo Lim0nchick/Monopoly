@@ -4,7 +4,7 @@ using namespace std;
 
 int main()
 {
-	srand(time(0));
+	//srand(time(0));
 
 	unsigned short points = 0;
 	unsigned short n;
