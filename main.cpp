@@ -1,4 +1,3 @@
-#include "Cages.h"
 #include <fstream>
 #include <iostream>
 using namespace std;
@@ -19,16 +18,17 @@ int main()
 	for (CurPos=0; CurPos<n; CurPos++)	// CurPos является индексом для экономии памяти, чтобы не выделять память для доп переменной 
 	{
 		Map >> field[CurPos];
+		cout << field[CurPos];
 	}
+	cout <<"\n\n";
 	Map.close();
-	for (CurPos=0; CurPos<n; CurPos++)	// CurPos является индексом для экономии памяти, чтобы не выделять память для доп переменной 
-	{
-		cout << field[CurPos] << endl;
-	}
-	
+		
 	unsigned short dice1, dice2, d;
-	dice1 = rand()%6+1; cout << "dice1 = " << dice1 << endl; 
-	dice2 = rand()%6+1; cout << "dice2 = " << dice2 << endl;
+	//dice1 = rand()%6+1; cout << "dice1 = " << dice1 << endl; 
+	//dice2 = rand()%6+1; cout << "dice2 = " << dice2 << endl;
+	dice1 = 6;
+	dice2 = 6;
+
 	d = dice1 + dice2;
 	cout << d << endl;
 
@@ -42,13 +42,15 @@ int main()
 		CurPos = step;
 	} else CurPos = d;
 	unsigned short c_doubles;
-	if (dice1=dice2)
+	if (dice1==dice2)
 		c_doubles+=1;
-	
+	cout << points << " points" << endl;
+	cout << CurPos << " - Current position" << endl;
+	cout << field[CurPos] << " - Type of field" << endl;
 	bool exit=false;
 	do
 	{
-		if (field[CurPos]!=1)
+		if (field[CurPos] = 0)
 		{
 			if (c_doubles != 0)
 			{
@@ -70,15 +72,14 @@ int main()
 					
 				} else exit = true;	
 			} else exit = true;	
-		}
+		}	
 
-		switch (field[CurPos])
+		if (field[CurPos]=1)
 		{
-			case 1:
-			{
 				cout << "Chance, give and read a Chance-card" << endl;
-				unsigned short Card = rand()%4+1;
-				switch (Card):
+				//unsigned short Card = rand()%4+1;
+				unsigned short Card = 3;
+				switch (Card)
 				{
 					case 1:
 					{
@@ -90,8 +91,7 @@ int main()
 							step = 3%n;
 							CurPos += step;
 						} else CurPos += 3;
-						break;
-					}
+					}break;
 					case 2:
 					{
 						cout << "lose 3 points and pass to 3 cages back" << endl;
@@ -101,8 +101,7 @@ int main()
 							CurPos -= step;
 						} else CurPos -= 3;
 						points-=3;
-						break;
-					}
+					}break;
 					case 3:
 					{
 						cout << "extra course" << endl;
@@ -110,10 +109,10 @@ int main()
 						dice2 = rand()%6+1; cout << "dice2 = " << dice2 << endl;
 						d = dice1 + dice2;
 						cout << d << endl;
-						if (dice1=dice2)
+						if (dice1==dice2)
 							c_doubles+=1;
 						else c_doubles=0;
-						if (c_doubles=3)
+						if (c_doubles==3)
 							exit = true;
 						else
 						{
@@ -124,25 +123,28 @@ int main()
 								CurPos = step;
 							} else CurPos = d;
 						}
-						break;
-					}
+					}break;
 					case 4:
 					{
 						cout << "Go to 'START'"<< endl;
 						CurPos=0;
 						points+=(n-CurPos);
-						break;
-					}
+					}break;
 				}
-				cout << points << " - points" << endl;
-				cout << CurPos << " - Current position" << endl;
-			default:
-			{
-				cout << " Empty cage" << endl;
-				break;
-			}
-	} while (exit = false)
+
+		} else
+		{
+			cout << " Empty cage" << endl;
+		} 
+		
+		cout << points << " - points" << endl;
+		cout << CurPos << " - Current position" << endl;
+		cout << field[CurPos] << " - Type of field" << endl;
+
+	} while (exit = false);
+	cout << "course end" << endl;
 	
-	system("pause");
+	//system("pause"); // for widows-family OSs
+	getchar(); // выступает в роли аналога "system("pause");"
 	return 0;
 }
