@@ -8,18 +8,23 @@ int main()
 	srand(time(0));
 
 	unsigned short points = 0;
-
 	unsigned short n;
-	unsigned short field*;
+	
 	fstream Map;
 	Map.open("Map.dat", ios::in);
+	if(!Map) return 1; // Если ошибка открытия файла, то завершаем программу
 	Map >> n;
+	unsigned short* field = new unsigned short[n];
 	unsigned short CurPos;
-	for (CurPos=1; i<=n; i++)	\\ CurPos является индексом для экономии памяти, чтобы не выделять память для доп переменной 
+	for (CurPos=0; CurPos<n; CurPos++)	// CurPos является индексом для экономии памяти, чтобы не выделять память для доп переменной 
 	{
 		Map >> field[CurPos];
 	}
-	Map.close("Map.dat");
+	Map.close();
+	for (CurPos=0; CurPos<n; CurPos++)	// CurPos является индексом для экономии памяти, чтобы не выделять память для доп переменной 
+	{
+		cout << field[CurPos] << endl;
+	}
 	
 	unsigned short dice1, dice2, d;
 	dice1 = rand()%6+1; cout << "dice1 = " << dice1 << endl; 
@@ -39,8 +44,7 @@ int main()
 	unsigned short c_doubles;
 	if (dice1=dice2)
 		c_doubles+=1;
-	//else delete c_doubles;
-
+	
 	bool exit=false;
 	do
 	{
@@ -63,47 +67,9 @@ int main()
 					} else CurPos = d;
 					if (c_doubles=3)
 						exit = true;
-					/*
-					else
-					{
-						dice1 = rand()%6+1; cout << "dice1 = " << dice1 << endl; 
-						dice2 = rand()%6+1; cout << "dice2 = " << dice2 << endl;
-						d = dice1 + dice2;
-						cout << d << endl;
-						if (dice1=dice2)
-						{
-							c_doubles+=1;
-							points+=d;
-							if (d>n)
-							{
-								step = d%n;
-								CurPos = step;
-							} else CurPos = d;
-							if (c_doubles=3)
-							exit = true;
-							else
-							{
-								dice1 = rand()%6+1; cout << "dice1 = " << dice1 << endl; 
-								dice2 = rand()%6+1; cout << "dice2 = " << dice2 << endl;
-								d = dice1 + dice2;
-								cout << d << endl;
-								if (dice1=dice2)
-									{
-										c_doubles+=1;
-										points+=d;
-										if (d>n)
-										{
-											step = d%n;
-											CurPos = step;
-										} else CurPos = d;
-										if (c_doubles=3)
-											exit = true;
-									}
-								}
-						}
-					} */
+					
 				} else exit = true;	
-			}
+			} else exit = true;	
 		}
 
 		switch (field[CurPos])
