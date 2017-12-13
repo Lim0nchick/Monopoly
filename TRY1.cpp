@@ -1,11 +1,18 @@
 #include <stack>
 using namespace std;
 
-unsigned int try(unsigned short d, unsigned int points, unsigned short CurPos, unsigned short* field, stack<unsigned short> sChance)	
+unsigned int try(unsigned short d, unsigned int points, unsigned short CurPos,
+	unsigned short* field, stack<unsigned short> sChance1)	
 {
-	stack<unsigned short> sChance1 = sChance;
+	stack<unsigned short> sChance1;
 	stack<unsigned short> sChance2;
 	
+	if (d>n)
+	{
+		step = d%n;
+		CurPos += step;
+	} else CurPos += d;
+
 	bool sChanceSelect=false;
 	do
 	{
@@ -64,19 +71,199 @@ unsigned int try(unsigned short d, unsigned int points, unsigned short CurPos, u
 			} break;
 			case 0:
 			{
-				points +=d;
+				points += d;
 				return points;	
 			}	
 
-	} while (1/*exit == false*/);
+	} while (1);
+	return points;
 }
 	
 
-int try1(unsigned short d, unsigned short dice12, unsigned short dice22,
+int try1(unsigned short d1, unsigned short d2,
  unsigned int points, unsigned short CurPos,
- unsigned short* field, stack<unsigned short> sChance)	
+ unsigned short* field, stack<unsigned short> sChance1)	
 {
-	stack<unsigned short> sChance1 = sChance;
+	stack<unsigned short> sChance1;
+	stack<unsigned short> sChance2;
+	
+	if (d1>n)
+	{
+		step = d1%n;
+		CurPos += step;
+	} else CurPos += d1;
+	
+	bool first = true;
+	bool second = false;
+	do
+	{
+		switch field[CurPos]
+		{
+			case 0:
+			{
+				if (second)
+				{
+					if (d2>n)
+					{
+						step = d2%n;
+						CurPos += step;
+					} else CurPos += d2;
+					if (field[CurPos] == 0)
+					{
+						points += d2;
+						return points;
+					}
+				}
+				if (first)
+				{
+					points += d1;
+					second = true;
+				}
+			} break;
+
+			case 1:
+			{
+				switch (Card)
+				{
+					case 1:
+					{
+						points+=3;
+						if (3>n)
+						{
+							step = 3%n;
+							CurPos += step;
+						} else CurPos += 3;
+					} break;
+					case 2:
+					{
+						if (3>CurPos)
+						{
+							step = 3%n;
+							CurPos -= step;
+						} else CurPos -= 3;
+						points-=3;
+					} break;
+					
+					case 3:
+					{
+						CurPos=0;
+						points+=(n-CurPos);
+					} break;
+				}
+			}
+		}
+	} while (1);
+	return points;
+}
+
+unsigned int try2(unsigned short d1, unsigned short d2, unsigned short d3,
+ unsigned int points, unsigned short CurPos,
+ unsigned short* field, stack<unsigned short> sChance1)	
+{
+	stack<unsigned short> sChance1;
+	stack<unsigned short> sChance2;
+	
+	bool first = true;
+	bool second = false;
+	bool third = false;
+	bool thirdAfterChance = false;
+
+	if (d1>n)
+	{
+		step = d1%n;
+		CurPos += step;
+	} else CurPos += d1;
+
+	do
+	{
+		switch field[CurPos]
+		{
+			case 0:
+			{
+				if (thirdAfterChance)
+				{
+					points += d3;
+					return points;
+				}
+				if (third)
+				{
+					if (d3>n)
+					{
+						step = d3%n;
+						CurPos += step;
+					} else CurPos += d3;
+					if (field[CurPos] == 0)
+					{
+						points += d3;
+						return points;
+					} else 
+					{
+						third = false;
+						thirdAfterChance = true;
+					}
+				}
+				if (second)
+				{
+					if (d2>n)
+					{
+						step = d2%n;
+						CurPos += step;
+					} else CurPos += d1;
+					if (field[CurPos] == 0)
+					{
+						points += d2;
+						second = false;
+						third = true;
+					}
+				}
+				if (first)
+				{
+					points += d1;
+					second = true;
+					first = false;
+				}
+			} break;
+
+			case 1:
+			{
+				switch (Card)
+				{
+					case 1:
+					{
+						points+=3;
+						if (3>n)
+						{
+							step = 3%n;
+							CurPos += step;
+						} else CurPos += 3;
+					} break;
+					case 2:
+					{
+						if (3>CurPos)
+						{
+							step = 3%n;
+							CurPos -= step;
+						} else CurPos -= 3;
+						points-=3;
+					} break;
+					
+					case 3:
+					{
+						CurPos=0;
+						points+=(n-CurPos);
+					} break;
+				}
+			}
+		}
+	} while (1);
+	return points;
+}
+
+unsigned int try2(unsigned short d1, unsigned short d2, unsigned short d3,
+ unsigned int points, unsigned short CurPos,
+ unsigned short* field, stack<unsigned short> sChance1)	
+{
+	stack<unsigned short> sChance1;
 	stack<unsigned short> sChance2;
 	
 	bool exit=false;
@@ -89,13 +276,11 @@ int try1(unsigned short d, unsigned short dice12, unsigned short dice22,
 			{
 				if (first)
 				{
-					d = dice11 + dice21;
-					points += d;
+					points += d1;
 
 				} else
 				{
-					d = dice12 + dice22;
-					points +=d;
+					points +=d2;
 					return points;
 				}	
 			} break;
@@ -131,6 +316,6 @@ int try1(unsigned short d, unsigned short dice12, unsigned short dice22,
 				}
 			}
 		}
-	} while (exit == false);
+	} while (1);
 	return points;
 }
