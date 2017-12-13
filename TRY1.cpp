@@ -80,34 +80,64 @@ unsigned int try(unsigned short d, unsigned int points, unsigned short CurPos,
 }
 	
 
-int try1(unsigned short d1, unsigned short d2,
- unsigned int points, unsigned short CurPos,
- unsigned short* field, stack<unsigned short> sChance1)	
+unsigned int try1(unsigned short d1, unsigned short d2,
+ unsigned int points, unsigned short* field, unsigned short CurPos,
+ stack<unsigned short> sChance1)	
 {
 	stack<unsigned short> sChance1;
 	stack<unsigned short> sChance2;
 	
-	if (d1>n)
+	bool first;
+	bool second;
+	bool secondAfterChance;
+
+	if (CurPos!=0)
 	{
-		step = d1%n;
-		CurPos += step;
-	} else CurPos += d1;
+		first = false;
+		switch (field[CurPos])
+		{
+			case 0:
+			{
+				second = true;
+			} break;
+			case 1:
+			{
+				secondAfterChance = true;
+			} break;
+		}
+		second = true;
+	} else
+	{
+		if (d1>n)
+		{
+			step = d1%n;
+			CurPos += step;
+		} else CurPos += d1;
+	}
 	
-	bool first = true;
-	bool second = false;
 	do
 	{
 		switch field[CurPos]
 		{
 			case 0:
 			{
+				if (secondAfterChance)
+				{
+					points += d2;
+					return points;
+				}
 				if (second)
 				{
 					if (d2>n)
 					{
 						step = d2%n;
 						CurPos += step;
-					} else CurPos += d2;
+					} else
+					{
+						CurPos += d2;
+						second = false;
+						secondAfterChance = true;
+					}
 					if (field[CurPos] == 0)
 					{
 						points += d2;
@@ -118,6 +148,7 @@ int try1(unsigned short d1, unsigned short d2,
 				{
 					points += d1;
 					second = true;
+					first = false;
 				}
 			} break;
 
@@ -208,7 +239,7 @@ unsigned int try2(unsigned short d1, unsigned short d2, unsigned short d3,
 					{
 						step = d2%n;
 						CurPos += step;
-					} else CurPos += d1;
+					} else CurPos += d2;
 					if (field[CurPos] == 0)
 					{
 						points += d2;
@@ -259,30 +290,88 @@ unsigned int try2(unsigned short d1, unsigned short d2, unsigned short d3,
 	return points;
 }
 
-unsigned int try2(unsigned short d1, unsigned short d2, unsigned short d3,
+/*unsigned int try3(unsigned short d1, unsigned short d2, unsigned short d3, unsigned short d4,
  unsigned int points, unsigned short CurPos,
  unsigned short* field, stack<unsigned short> sChance1)	
 {
 	stack<unsigned short> sChance1;
 	stack<unsigned short> sChance2;
 	
-	bool exit=false;
-	bool first;
+	bool first = true;
+	bool second = false;
+	bool third = false;
+	bool fourth = false;
+	bool fourthAfterChance = false;
+
+	if (d1>n)
+	{
+		step = d1%n;
+		CurPos += step;
+	} else CurPos += d1;
+
 	do
 	{
 		switch field[CurPos]
 		{
 			case 0:
 			{
+				if (fourthAfterChance)
+				{
+					points += d4;
+					return points;
+				}
+				if (fourth)
+				{
+					if (d4<n)
+					{
+						step = d4%n;
+						CurPos += step;
+					} else CurPos += d4;
+					if (field[CurPos] == 0)
+					{
+						points += d4;
+						return points;
+					} else 
+					{
+						fourth = false;
+						fourthAfterChance = true;
+					}
+				}
+				if (third)
+				{
+					if (d3>n)
+					{
+						step = d3%n;
+						CurPos += step;
+					} else CurPos += d3;
+					if (field[CurPos] == 0)
+					{
+						points += d3;
+						third = false;
+						fourth = true;
+					}
+				}
+				if (second)
+				{
+					if (d2>n)
+					{
+						step = d2%n;
+						CurPos += step;
+					} else CurPos += d2;
+					if (field[CurPos] == 0)
+					{
+						points += d2;
+						second = false;
+						third = true;
+					}
+				}
 				if (first)
 				{
 					points += d1;
-
-				} else
-				{
-					points +=d2;
-					return points;
-				}	
+					second = true;
+					first = false;
+				}
+			} break;
 			} break;
 
 			case 1:
@@ -318,4 +407,4 @@ unsigned int try2(unsigned short d1, unsigned short d2, unsigned short d3,
 		}
 	} while (1);
 	return points;
-}
+}*/
