@@ -4,7 +4,6 @@
 #include <ctime>
 using namespace std;
 
-
 int main()
 {
 	srand(time(0));
@@ -25,11 +24,11 @@ int main()
 	cin >> ChanceStackSize;
 	Map << ChanceStackSize;
 	Map << endl;
-	unsigned short int* ChanceStack = new unsigned short int[ChanceStackSize];
 	for (unsigned short i=0; i<ChanceStackSize; i++)
 	{
-		ChanceStack[i]=rand()%2+0;
-		Map << ChanceStack[i] << endl;
+		unsigned short ChanceType=rand()%2+0;
+		unsigned short ChancePos=rand()%(MapSize-1)+0;
+		Map << ChanceStack << endl;
 	}
 
 	Map.close();

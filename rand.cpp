@@ -2,14 +2,14 @@
 #include  <stack>
 using namespace std;
 
-stack<unsigned short> stackreform(stack<unsigned short> s)
+/*stack<unsigned short> stackreform(stack<unsigned short> s)
 {
 	for (unsigned short i=0; i<8; i++)
 	{
 		s.pop();
 	}
 	return s;
-}
+}*/
 
 int main()
 {
@@ -22,7 +22,7 @@ int main()
 	q.push(1);
 	int r=q.front();
 	cout << r;*/
-stack<unsigned short> sChance1;
+/*stack<unsigned short> sChance1;
 	for (unsigned short i=0; i<10; i++)
 	{
 		sChance1.push(rand()%3+1);
@@ -49,5 +49,11 @@ for (unsigned short i=0; i<2; i++)
 		cout << sChance2.top() << endl;
 		sChance2.pop();
 	}
-
+*/
+int i=0;
+	do
+	{
+		i++;
+		cout << i << endl;
+	} while (i!=5);
 }

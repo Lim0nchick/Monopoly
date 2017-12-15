@@ -105,7 +105,7 @@ unsigned int try1(unsigned short d1, unsigned short d2,
 				secondAfterChance = true;
 			} break;
 		}
-		second = true;
+		//second = true;
 	} else
 	{
 		if (d1>n)
@@ -199,12 +199,29 @@ unsigned int try2(unsigned short d1, unsigned short d2, unsigned short d3,
 	bool third = false;
 	bool thirdAfterChance = false;
 
-	if (d1>n)
+	if (CurPos!=0) // ДОДЕЛАТЬ!!!
 	{
-		step = d1%n;
-		CurPos += step;
-	} else CurPos += d1;
-
+		first = false;
+		switch (field[CurPos])
+		{
+			case 0:
+			{
+				third = true;
+			} break;
+			case 1:
+			{
+				thirdAfterChance = true;
+			}
+		}
+		//second = true;
+	} else
+	{
+		if (d1>n)
+		{
+			step = d1%n;
+			CurPos += step;
+		} else CurPos += d1;
+	}
 	do
 	{
 		switch field[CurPos]
