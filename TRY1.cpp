@@ -199,9 +199,10 @@ unsigned int try2(unsigned short d1, unsigned short d2, unsigned short d3,
 	bool third = false;
 	bool thirdAfterChance = false;
 
-	if (CurPos!=0) // ДОДЕЛАТЬ!!!
+	if (CurPos!=0)
 	{
 		first = false;
+		second = false;
 		switch (field[CurPos])
 		{
 			case 0:
@@ -213,7 +214,6 @@ unsigned int try2(unsigned short d1, unsigned short d2, unsigned short d3,
 				thirdAfterChance = true;
 			}
 		}
-		//second = true;
 	} else
 	{
 		if (d1>n)
