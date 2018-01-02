@@ -2,6 +2,8 @@
 //#include "circlequeue.h"
 #include <list>
 #include <iterator>
+#include <vector>
+#include <utility>
 using namespace std;
 
 struct Chance
@@ -12,14 +14,16 @@ struct Chance
 
 unsigned int try(unsigned short d, unsigned int points, unsigned short CurPos, unsigned n,
 	unsigned short* field, list<Chance> lChance)	
-{	
+{
+	list<Chance>::iterator it;
+	vector<pair<unsigned, int> Pos_and_Chance;
+	Pos_and_Chance.push_back(make_pair(0,-1));
+
 	if (d>n)
 	{
 		step = d%n;
 		CurPos += step;
 	} else CurPos += d;
-
-	list<unsigned>::iterator it;
 
 	do
 	{
@@ -54,15 +58,16 @@ unsigned int try(unsigned short d, unsigned int points, unsigned short CurPos, u
 						points+=(n-CurPos);
 					}break;
 				}
-			advance(it, 1);
-			if (it==CL.end())
-				CL.begin();
+				Pos_and_Chance.push_back(make_pair(CurPos,*it));
+				advance(it, 1);
+				if (it==CL.end())
+					CL.begin();
 			} break;
 			case 0:
 			{
 				points += d;
 				return points;	
-			}	
+			} break;	
 		}
 	} while (1);
 	return points;
@@ -76,7 +81,9 @@ unsigned int try1(unsigned short d1, unsigned short d2, unsigned n,
 	bool first;
 	bool second;
 	bool secondAfterChance;
-	list<unsigned>::iterator it;
+	list<Chance>::iterator it;
+	vector<pair<unsigned, int> Pos_and_Chance;
+	Pos_and_Chance.push_back(make_pair(0,-1));
 
 	if (CurPos!=0)
 	{
@@ -124,6 +131,8 @@ unsigned int try1(unsigned short d1, unsigned short d2, unsigned n,
 						second = false;
 						secondAfterChance = true;
 					}
+
+
 					if (field[CurPos] == 0)
 					{
 						points += d2;
@@ -136,6 +145,7 @@ unsigned int try1(unsigned short d1, unsigned short d2, unsigned n,
 					second = true;
 					first = false;
 				}
+				Pos_and_Chance.push_back(make_pair(CurPos,-1));
 			} break;
 
 			case 1:
@@ -167,6 +177,8 @@ unsigned int try1(unsigned short d1, unsigned short d2, unsigned n,
 						points+=(n-CurPos);
 					} break;
 				}
+				Pos_and_Chance.push_back(make_pair(CurPos,*it));
+
 				advance(it, 1);
 				if (it==CL.end())
 					CL.begin();
@@ -184,7 +196,9 @@ unsigned int try2(unsigned short d1, unsigned short d2, unsigned short d3,  unsi
 	bool second = false;
 	bool third = false;
 	bool thirdAfterChance = false;
-	list<unsigned>::iterator it;
+	list<Chance>::iterator it;
+	vector<pair<unsigned, int> Pos_and_Chance;
+	Pos_and_Chance.push_back(make_pair(0,-1));
 
 	if (CurPos!=0)
 	{
@@ -209,6 +223,8 @@ unsigned int try2(unsigned short d1, unsigned short d2, unsigned short d3,  unsi
 			CurPos += step;
 		} else CurPos += d1;
 	}
+	Pos_and_Chance.push_back(make_pair(CurPos,-1));
+	
 	do
 	{
 		switch field[CurPos]
@@ -257,6 +273,7 @@ unsigned int try2(unsigned short d1, unsigned short d2, unsigned short d3,  unsi
 					second = true;
 					first = false;
 				}
+				Pos_and_Chance.push_back(make_pair(CurPos,-1));
 			} break;
 
 			case 1:
@@ -288,6 +305,7 @@ unsigned int try2(unsigned short d1, unsigned short d2, unsigned short d3,  unsi
 						points+=(n-CurPos);
 					} break;
 				}
+				Pos_and_Chance.push_back(make_pair(CurPos,*it));
 				advance(it, 1);
 				if (it==CL.end())
 					CL.begin();
