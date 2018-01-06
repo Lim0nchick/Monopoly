@@ -1,3 +1,6 @@
+#ifndef _THREADPOOL_H_
+#define _THREADPOOL_H_
+
 #include <functional>
 #include <thread>
 #include <queue>
@@ -67,15 +70,16 @@ public:
 			while (enabled)
 			{
 				std::unique_lock<std::mutex> locker(mutex);
-				
+				// Îæèäàåì óâåäîìëåíèÿ, è óáåäèìñÿ ÷òî ýòî íå ëîæíîå ïðîáóæäåíèå
+				// Ïîòîê äîëæåí ïðîñíóòüñÿ åñëè î÷åðåäü íå ïóñòàÿ ëèáî îí âûêëþ÷åí
 				cv.wait(locker, [&](){ return !fqueue.empty() || !enabled; });				
 				while(!fqueue.empty())
 				{
 					fn_type fn = fqueue.front();					
-					
+					// Ðàçáëîêèðóåì ìþòåêñ ïåðåä âûçîâîì ôóíêòîðà
 					locker.unlock();
 					fn();
-					 
+					// Âîçâðàùàåì áëîêèðîâêó ñíîâà ïåðåä âûçîâîì fqueue.empty() 
 					locker.lock();
 					fqueue.pop();
 				}				
@@ -145,3 +149,5 @@ private:
 	
 
 };
+
+#endif /*_THREADPOOL_H_*/
