@@ -44,7 +44,7 @@ unsigned int try1(unsigned short d, unsigned int points,
 		{
 			case 1:
 			{
-				switch (Card)
+				switch (*it.type)
 				{
 					case 1:
 					{	
@@ -54,7 +54,8 @@ unsigned int try1(unsigned short d, unsigned int points,
 							step = 3%n;
 							CurPos += step;
 						} else CurPos += 3;
-					}break;
+					} break;
+
 					case 2:
 					{
 						if (3>CurPos)
@@ -63,13 +64,13 @@ unsigned int try1(unsigned short d, unsigned int points,
 							CurPos -= step;
 						} else CurPos -= 3;
 						points-=3;
-					}break;
+					} break;
 					
 					case 3:
 					{
 						CurPos=0;
 						points+=(n-CurPos);
-					}break;
+					} break;
 				}
 				Pos_and_Chance.push_back(make_pair(CurPos,*it));
 				advance(it, 1);

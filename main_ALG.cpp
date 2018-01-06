@@ -35,7 +35,7 @@ int main()
 	for (auto i = 0; i<ChanceStackSize; i++)	
 	{
 		p = new Chance;
-		static unsigned short _type, _val;
+		unsigned short _type, _val;
 		Map >> _type;	Map >> _val;
 		p-> _type;		p-> _val;
 		CL.push_back(p);
@@ -43,10 +43,9 @@ int main()
 	}
 	cout << "\n\n";
 	Map.close();
-	//pool.runAsync(&)
+
 	ThreadPool pool;
-	//unsigned short d;
-	//unsigned int* r = new unsigned int[];
+
 	vector<unsigned int> r;
 	r[0] = pool.runAsync<unsigned int>(&try1,3, 0,0,n,field, CL);
 	r[1] = pool.runAsync<unsigned int>(&try1,4, 0,0,n,field, CL);

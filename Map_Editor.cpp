@@ -24,11 +24,12 @@ int main()
 	cin >> ChanceStackSize;
 	Map << ChanceStackSize;
 	Map << endl;
-	for (unsigned short i=0; i<ChanceStackSize; i++)
+	for (unsigned short i=0; i<(ChanceStackSize*2); i++)
 	{
 		unsigned short ChanceType=rand()%2+0;
 		unsigned short ChancePos=rand()%(MapSize-1)+0;
-		Map << ChanceStack << endl;
+		Map << ChanceType << endl;
+		Map << ChancePos << endl;
 	}
 
 	Map.close();

@@ -4,7 +4,8 @@
 #include <iterator>
 #include <utility>
 #include <vector>
-#include "ThreadPool.h"
+#include <fstream>
+//#include "ThreadPool.h"
 using namespace std;
 
 /*stack<unsigned short> stackreform(stack<unsigned short> s)
@@ -16,7 +17,14 @@ using namespace std;
 	return s;
 }*/
 
-int foo(int a)
+struct Chance
+{
+	unsigned short type;
+	unsigned value;
+};
+
+
+/*int foo(int a)
 {
 	cout << a << endl;
 	if (a==3)
@@ -25,11 +33,52 @@ int foo(int a)
 		terminate();
 	}else
 	return a;
-}
+}*/
 
 int main()
 {
 	srand (time(0));
+	unsigned short points = 0;
+	unsigned short n;
+	
+	fstream Map;
+	Map.open("Map.dat", ios::in);
+	if(!Map) return 1; // Если ошибка открытия файла, то завершаем программу
+	Map >> n;
+	unsigned short* field = new unsigned short[n];
+	unsigned short CurPos;
+	for (CurPos=0; CurPos<n; CurPos++)
+	{
+		Map >> field[CurPos];
+		cout << field[CurPos];
+	}
+	//stack<unsigned short> sChance;
+	unsigned short ChanceStackSize;
+	list<pair<unsigned short, unsigned>> CL;
+	Map >> ChanceStackSize;
+	for (auto i = 0; i<ChanceStackSize; i++)	
+	{
+		unsigned short type, value;
+		Map >> type;
+		Map >> value;
+		CL.push_back(make_pair(type, value));
+	}
+	cout << "\n\n";
+	Map.close();
+
+	list<pair<unsigned short, unsigned>>::iterator it;
+	for (it=CL.begin(); it!=CL.end(); it++)
+	{
+		cout << it->first << endl;
+	}
+
+
+
+
+
+
+
+
 	/*for (int i=0; i<10; i++)
 	{
 		std::cout << rand()%2+1 << std::endl;
@@ -132,12 +181,12 @@ for (int i=0; i<5; i++)
 cout << endl;
 cout << b << endl;
 */
-ThreadPool pool;
+/*ThreadPool pool;
 //vector<int> r;
 for (int i=0; i<200; i++)
 {
 	pool.runAsync(&foo,i);
-}
+}*/
 
 return 0;
 }
