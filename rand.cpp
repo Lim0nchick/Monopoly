@@ -17,13 +17,25 @@ using namespace std;
 	return s;
 }*/
 
-struct Chance
+
+
+/*void Cycle_Check(vector<pair<unsigned, int>> v)
 {
-	unsigned short type;
-	unsigned value;
-};
-
-
+	vector<pair<unsigned, int>>::iterator it;
+	for (it=v.begin(); it!=v.end(); it++)
+	{
+		vector<pair<unsigned, int>>::iterator jt;
+		for (jt=v.begin(); jt!=v.end(); jt++)
+		{
+			if (v[i]==v[j])
+			{
+				cout << "The longest move is INFINITY." << endl;
+				terminate();
+			}
+		}
+	}
+}
+*/
 /*int foo(int a)
 {
 	cout << a << endl;
@@ -54,23 +66,24 @@ int main()
 	}
 	//stack<unsigned short> sChance;
 	unsigned short ChanceStackSize;
-	list<pair<unsigned short, unsigned>> CL;
+	list<pair<unsigned short, unsigned>> lChance;
 	Map >> ChanceStackSize;
 	for (auto i = 0; i<ChanceStackSize; i++)	
 	{
 		unsigned short type, value;
 		Map >> type;
 		Map >> value;
-		CL.push_back(make_pair(type, value));
+		lChance.push_back(make_pair(type, value));
 	}
 	cout << "\n\n";
 	Map.close();
 
 	list<pair<unsigned short, unsigned>>::iterator it;
-	for (it=CL.begin(); it!=CL.end(); it++)
+	for (it=lChance.begin(); it!=lChance.end(); it++)
 	{
 		cout << it->first << endl;
 	}
+
 
 
 

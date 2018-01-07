@@ -4,22 +4,21 @@
 #include <utility>
 using namespace std;
 
-struct Chance
+void Cycle_Check(vector<pair<unsigned, list<pair<unsigned short, unsigned>>::iterator>> v)
 {
-	unsigned short type;
-	unsigned value;
-};
-
-void Cycle_Check(vector<pair<unsigned, int>> v)
-{
-	for (auto i : v)
+	vector<pair<unsigned, list<pair<unsigned short, unsigned>>::iterator>>::iterator it;
+	for (it=v.begin(); it!=v.end(); it++)
 	{
-		for (int j=(i+1); j<v.size; j++)
+		vector<pair<unsigned, list<pair<unsigned short, unsigned>>::iterator>>::iterator jt;
+		for (jt=it; jt!=v.end(); jt++)
 		{
-			if (A[i]==A[j])
+			if (jt!=it)
 			{
-				cout << "INFINITY" << endl;
-				terminate();
+				if (it->first == jt->first && it->second == jt->second)
+				{
+					cout << "The longest move is INFINITY." << endl;
+					terminate();
+				}
 			}
 		}
 	}
@@ -27,43 +26,40 @@ void Cycle_Check(vector<pair<unsigned, int>> v)
 
 unsigned int try1(unsigned short d, unsigned int points,
 	unsigned short CurPos, unsigned n,
-	unsigned short* field, list<Chance> lChance)	
+	unsigned short* field, list<pair<unsigned short, unsigned>> lChance)	
 {
-	list<Chance>::iterator it;
-	vector<pair<unsigned, int>> Pos_and_Chance;
-	Pos_and_Chance.push_back(make_pair(0,-1));
+	list<pair<unsigned short, unsigned>>::iterator it;
+	vector<pair<unsigned, list<pair<unsigned short, unsigned>>::iterator>> Pos_and_Chance;
+	Pos_and_Chance.push_back(make_pair(0,it));
 	if (d>n)
 	{
-		step = d%n;
-		CurPos += step;
+		CurPos += (d%n);
 	} else CurPos += d;
 
 	do
 	{
-		switch field[CurPos]
+		switch (field[CurPos])
 		{
 			case 1:
 			{
-				switch (*it.type)
+				switch (it->first)
 				{
 					case 1:
 					{	
-						points+=3;
-						if (3>n)
+						points+=(it->second);
+						if ((it->second)>n)
 						{
-							step = 3%n;
-							CurPos += step;
-						} else CurPos += 3;
+							CurPos += ((it->second)%n);
+						} else CurPos += (it->second);
 					} break;
 
 					case 2:
 					{
-						if (3>CurPos)
+						if ((it->second)>CurPos)
 						{
-							step = 3%n;
-							CurPos -= step;
-						} else CurPos -= 3;
-						points-=3;
+							CurPos -= ((it->second)%n);
+						} else CurPos -= (it->second);
+						points-=(it->second);
 					} break;
 					
 					case 3:
@@ -72,11 +68,11 @@ unsigned int try1(unsigned short d, unsigned int points,
 						points+=(n-CurPos);
 					} break;
 				}
-				Pos_and_Chance.push_back(make_pair(CurPos,*it));
+				Pos_and_Chance.push_back(make_pair(CurPos,it));
 				advance(it, 1);
-				if (it==CL.end())
+				if (it==lChance.end())
 				{
-					CL.begin();
+					lChance.begin();
 					Cycle_Check(Pos_and_Chance);
 				}
 			} break;
@@ -93,14 +89,14 @@ unsigned int try1(unsigned short d, unsigned int points,
 
 unsigned int try2(unsigned short d1, unsigned short d2, unsigned n,
  unsigned int points, unsigned short* field, unsigned short CurPos,
- list<Chance> CL)	
+ list<pair<unsigned short, unsigned>> lChance)	
 {
 	bool first;
 	bool second;
 	bool secondAfterChance;
-	list<Chance>::iterator it;
-	vector<pair<unsigned, int>> Pos_and_Chance;
-	Pos_and_Chance.push_back(make_pair(0,-1));
+	list<pair<unsigned short, unsigned>>::iterator it;
+	vector<pair<unsigned, list<pair<unsigned short, unsigned>>::iterator>> Pos_and_Chance;
+	Pos_and_Chance.push_back(make_pair(0,it));
 
 	if (CurPos!=0)
 	{
@@ -120,14 +116,13 @@ unsigned int try2(unsigned short d1, unsigned short d2, unsigned n,
 	{
 		if (d1>n)
 		{
-			step = d1%n;
-			CurPos += step;
+			CurPos += (d1%n);
 		} else CurPos += d1;
 	}
 	
 	do
 	{
-		switch field[CurPos]
+		switch (field[CurPos])
 		{
 			case 0:
 			{
@@ -140,16 +135,13 @@ unsigned int try2(unsigned short d1, unsigned short d2, unsigned n,
 				{
 					if (d2>n)
 					{
-						step = d2%n;
-						CurPos += step;
+						CurPos += (d2%n);
 					} else
 					{
 						CurPos += d2;
 						second = false;
 						secondAfterChance = true;
 					}
-
-
 					if (field[CurPos] == 0)
 					{
 						points += d2;
@@ -162,30 +154,28 @@ unsigned int try2(unsigned short d1, unsigned short d2, unsigned n,
 					second = true;
 					first = false;
 				}
-				Pos_and_Chance.push_back(make_pair(CurPos,-1));
+				Pos_and_Chance.push_back(make_pair(CurPos,it));
 			} break;
 
 			case 1:
 			{
-				switch (Card)
+				switch (it->first)
 				{
 					case 1:
 					{
-						points+=3;
-						if (3>n)
+						points+=(it->second);
+						if ((it->second)>n)
 						{
-							step = 3%n;
-							CurPos += step;
-						} else CurPos += 3;
+							CurPos += ((it->second)%n);
+						} else CurPos += (it->second);
 					} break;
 					case 2:
 					{
-						if (3>CurPos)
+						if ((it->second)>CurPos)
 						{
-							step = 3%n;
-							CurPos -= step;
-						} else CurPos -= 3;
-						points-=3;
+							CurPos -= ((it->second)%n);
+						} else CurPos -= (it->second);
+						points-=(it->second);
 					} break;
 					
 					case 3:
@@ -194,11 +184,11 @@ unsigned int try2(unsigned short d1, unsigned short d2, unsigned n,
 						points+=(n-CurPos);
 					} break;
 				}
-				Pos_and_Chance.push_back(make_pair(CurPos,*it));
+				Pos_and_Chance.push_back(make_pair(CurPos,it));
 				advance(it, 1);
-				if (it==CL.end())
+				if (it==lChance.end())
 				{
-					CL.begin();
+					lChance.begin();
 					Cycle_Check(Pos_and_Chance);
 				}
 			}
@@ -210,15 +200,15 @@ unsigned int try2(unsigned short d1, unsigned short d2, unsigned n,
 unsigned int try3(unsigned short d1, unsigned short d2,
  unsigned short d3,  unsigned n,
  unsigned int points, unsigned short CurPos,
- unsigned short* field, list<Chance> CL)	
+ unsigned short* field, list<pair<unsigned short, unsigned>> lChance)	
 {
 	bool first = true;
 	bool second = false;
 	bool third = false;
 	bool thirdAfterChance = false;
-	list<Chance>::iterator it;
-	vector<pair<unsigned, int>> Pos_and_Chance;
-	Pos_and_Chance.push_back(make_pair(0,-1));
+	list<pair<unsigned short, unsigned>>::iterator it;
+	vector<pair<unsigned, list<pair<unsigned short, unsigned>>::iterator>> Pos_and_Chance;
+	Pos_and_Chance.push_back(make_pair(0,it));
 
 	if (CurPos!=0)
 	{
@@ -239,15 +229,14 @@ unsigned int try3(unsigned short d1, unsigned short d2,
 	{
 		if (d1>n)
 		{
-			step = d1%n;
-			CurPos += step;
+			CurPos += (d1%n);
 		} else CurPos += d1;
 	}
-	Pos_and_Chance.push_back(make_pair(CurPos,-1));
+	Pos_and_Chance.push_back(make_pair(CurPos,it));
 	
 	do
 	{
-		switch field[CurPos]
+		switch (field[CurPos])
 		{
 			case 0:
 			{
@@ -260,8 +249,7 @@ unsigned int try3(unsigned short d1, unsigned short d2,
 				{
 					if (d3>n)
 					{
-						step = d3%n;
-						CurPos += step;
+						CurPos += (d3%n);
 					} else CurPos += d3;
 					if (field[CurPos] == 0)
 					{
@@ -277,8 +265,7 @@ unsigned int try3(unsigned short d1, unsigned short d2,
 				{
 					if (d2>n)
 					{
-						step = d2%n;
-						CurPos += step;
+						CurPos += (d2%n);
 					} else CurPos += d2;
 					if (field[CurPos] == 0)
 					{
@@ -293,30 +280,29 @@ unsigned int try3(unsigned short d1, unsigned short d2,
 					second = true;
 					first = false;
 				}
-				Pos_and_Chance.push_back(make_pair(CurPos,-1));
+				Pos_and_Chance.push_back(make_pair(CurPos,it));
 			} break;
 
 			case 1:
 			{
-				switch (Card)
+				switch (it->first)
 				{
 					case 1:
 					{
-						points+=3;
-						if (3>n)
+						points+=(it->second);
+						if ((it->second)>n)
 						{
-							step = 3%n;
-							CurPos += step;
-						} else CurPos += 3;
+							CurPos += ((it->second)%n);
+						} else CurPos += (it->second);
 					} break;
+
 					case 2:
 					{
-						if (3>CurPos)
+						if ((it->second)>CurPos)
 						{
-							step = 3%n;
-							CurPos -= step;
-						} else CurPos -= 3;
-						points-=3;
+							CurPos -= ((it->second)%n);
+						} else CurPos -= (it->second);
+						points-=(it->second);
 					} break;
 					
 					case 3:
@@ -325,11 +311,11 @@ unsigned int try3(unsigned short d1, unsigned short d2,
 						points+=(n-CurPos);
 					} break;
 				}
-				Pos_and_Chance.push_back(make_pair(CurPos,*it));
+				Pos_and_Chance.push_back(make_pair(CurPos,it));
 				advance(it, 1);
-				if (it==CL.end())
+				if (it==lChance.end())
 				{
-					CL.begin();
+					lChance.begin();
 					Cycle_Check(Pos_and_Chance);
 				}
 			}

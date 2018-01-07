@@ -7,9 +7,9 @@ using namespace std;
 int main()
 {
 	srand(time(0));
-	unsigned short int MapSize;
+	unsigned short MapSize;
 	cin >> MapSize;
-	unsigned short int* field = new unsigned short int[MapSize];
+	unsigned short* field = new unsigned short[MapSize];
 	fstream Map;
 	Map.open("Map.dat", ios::out);
 	Map << MapSize;
@@ -24,10 +24,14 @@ int main()
 	cin >> ChanceStackSize;
 	Map << ChanceStackSize;
 	Map << endl;
+	unsigned short ChancePos=0;
 	for (unsigned short i=0; i<(ChanceStackSize*2); i++)
 	{
-		unsigned short ChanceType=rand()%2+0;
-		unsigned short ChancePos=rand()%(MapSize-1)+0;
+		unsigned short ChanceType=rand()%3+1;
+		if (ChanceType==3)
+			ChancePos=0;
+		else
+			ChancePos=rand()%(MapSize-1)+0;
 		Map << ChanceType << endl;
 		Map << ChancePos << endl;
 	}
