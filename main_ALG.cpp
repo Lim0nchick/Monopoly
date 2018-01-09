@@ -44,8 +44,13 @@ int main()
 
 	//ThreadPool pool;
 
+	cout << "1" << endl;
+
+
 	unsigned* r1;
+	vector <future<unsigned>> f1;
 	r1=new unsigned[9];
+	cout << "2" << endl;
 	/*r[0] = pool.runAsync<unsigned int>(&try1,3, 0,0,n,field, lChance);
 	r[1] = pool.runAsync<unsigned int>(&try1,4, 0,0,n,field, lChance);
 	r[2] = pool.runAsync<unsigned int>(&try1,5, 0,0,n,field, lChance);
@@ -55,11 +60,16 @@ int main()
 	r[6] = pool.runAsync<unsigned int>(&try1,9, 0,0,n,field, lChance);
 	r[7] = pool.runAsync<unsigned int>(&try1,10,0,0,n,field, lChance);
 	r[8] = pool.runAsync<unsigned int>(&try1,11,0,0,n,field, lChance);*/
+	unsigned int max = 0;
 	for (auto i=0; i<9; i++)
 	{
-		future<unsigned> f = async(try1,(i+3), 0,0,n,field, lChance);
-		r1[i]=f.get();
+		f1[i] = async(try1,(i+3), 0,0,n,field, lChance);
+		r1[i]=f1[i].get();
+		if (max < r1[i])
+			max = r1[i];
+		cout << i << endl;
 	}
+	cout << "2" << endl;
 	/*future<unsigned> r1[0] = async(try1,3, 0,0,n,field, lChance);
 	r1[0].get();
 	future<unsigned> r1[1] = async(try1,4, 0,0,n,field, lChance);
@@ -80,19 +90,19 @@ int main()
 	r1[8].get();
 */
 
-	unsigned int max = r1[0];
-	for (unsigned short i=1; i<9; i++)
+	
+	/*for (unsigned short i=1; i<9; i++)
 	{
 		if (max < r1[i])
 			max = r1[i];
-	}
+	}*/
 
 	/*delete pool;
  	ThreadPool pool;*/
 
  	//unsigned int* r = new unsigned int[9];
  	vector<vector<unsigned int>> r2; // Проверить корректность объявления двумерного вектора
-
+ 	vector<vector <future<unsigned>>> f2;	
  	/*for (unsigned short d1=2; d2<14; d2+=2)
  	{
  		for (unsigned short d2 = 0; d2<9; d2++)
@@ -105,20 +115,20 @@ int main()
  				max=r1[d1][d2];
  		}
  	}*/
-
+	//vector<vector <future<unsigned>>> f2;
  	for (unsigned short d1=2; d1<14; d1+=2)
  	{
  		for (unsigned short d2 = 0; d2<9; d2++)
  		{
  			if (d1 == 4 || d1 == 6 || d1 == 8 || d1 == 10)
  			{
-				future<unsigned int> f = async(try1,d1, (d2+3),0, n, field, ((r1[d1-3])%n), lChance);
-				r2[d1][d2]=f.get();
+				f2[d1][d2] = async(try2,d1, (d2+3),0, n, field, ((r1[d1-3])%n), lChance);
+				r2[d1][d2]=f2[d1][d2].get();
  			}
 			else 
 			{
-				future<unsigned int> f = async(try2,d1, (d2+3,0), n, field, 0, lChance);
-				r2[d1][d2]=f.get();
+				f2[d1][d2] = async(try2,d1, (d2+3),0, n, field, 0, lChance);
+				r2[d1][d2]=f2[d1][d2].get();
 			}
  			if (max < r2[d1][d2])
  				max=r2[d1][d2];
@@ -129,6 +139,7 @@ int main()
  	ThreadPool pool;*/
  	
  	vector<vector<unsigned int>> r3; // Проверить корректность объявления двумерного вектора
+ 	vector<vector <future<unsigned>>> f3;
 
  	for (unsigned short d3 = 2; d3<13; d3++)
  	{
@@ -136,13 +147,13 @@ int main()
  		{
 			if (d2 == 4 || d2 == 6 || d2 == 8 || d2 == 10)
 			{
-				future<unsigned int> f = async(try3,2, d2,d3, 0, ((r2[2][d2])%n), n, field, lChance);
-				r3[d3][d2]=f.get();
+				f3[d3][d2] = async(try3,2, d2,d3, 0, ((r2[2][d2])%n), n, field, lChance);
+				r3[d3][d2]=f3[d3][d2].get();
 			}
 			else
 			{
-				future<unsigned int> f = async(try3,2, d2,d3, 0, 0, field, lChance);
-				r3[d3][d2]=f.get();
+				f3[d3][d2] = async(try3,2, d2,d3, 0, 0, n, field, lChance);
+				r3[d3][d2]=f3[d3][d2].get();
 			}
 			if (max < r3[d3][d2])
  				max=r3[d3][d2];
@@ -151,13 +162,13 @@ int main()
 		{
 			if (d2 == 4 || d2 == 6 || d2 == 8 || d2 == 10)
 			{
-				future<unsigned int> f = async(try3,4, d2,d3, 0, ((r2[4][d2])%n), n, field, lChance);
-				r3[d3][d2+12]=f.get();
+				f3[d3][d2+12] = async(try3,4, d2,d3, 0, ((r2[4][d2])%n), n, field, lChance);
+				r3[d3][d2+12]=f3[d3][d2+12].get();
 			}
 			else
 			{
-				future<unsigned int> f = async(try3,4, d2,d3, 0, 0, n, field, lChance);
-				r3[d3][d2+12]=f.get();
+				f3[d3][d2+12] = async(try3,4, d2,d3, 0, 0, n, field, lChance);
+				r3[d3][d2+12]=f3[d3][d2+12].get();
 			}
 			if (max < r3[d3][d2+12])
  				max=r3[d3][d2+12];
@@ -166,13 +177,13 @@ int main()
 		{
 			if (d2 == 4 || d2 == 6 || d2 == 8 || d2 == 10)
 			{
-				future<unsigned int> f = async(try3,6, d2,d3, 0, ((r2[6][d2])%n), n, field, lChance);
-				r3[d3][d2+24]=f.get();
+				f3[d3][d2+24] = async(try3,6, d2,d3, 0, ((r2[6][d2])%n), n, field, lChance);
+				r3[d3][d2+24]=f3[d3][d2+24].get();
 			}
 			else
 			{
-				future<unsigned int> f = async(try3,6, d2,d3, 0, 0, n, field, lChance);
-				r3[d3][d2+24]=f.get();
+				f3[d3][d2+24] = async(try3,6, d2,d3, 0, 0, n, field, lChance);
+				r3[d3][d2+24]=f3[d3][d2+24].get();
 			}
 			if (max < r3[d3][d2+24])
  				max=r3[d3][d2+24];
@@ -181,13 +192,13 @@ int main()
 		{
 			if (d2 == 4 || d2 == 6 || d2 == 8 || d2 == 10)
 			{
-				future<unsigned int> f = async(try3,8, d2,d3, 0, ((r2[8][d2])%n), n, field, lChance);
-				r3[d3][d2+36]=f.get();
+				f3[d3][d2+36] = async(try3,8, d2,d3, 0, ((r2[8][d2])%n), n, field, lChance);
+				r3[d3][d2+36]=f3[d3][d2+36].get();
 			}
 			else
 			{
-				future<unsigned int> f = async(try3,8, d2,d3, 0, 0, n, field, lChance);
-				r3[d3][d2+36]=f.get();
+				f3[d3][d2+36] = async(try3,8, d2,d3, 0, 0, n, field, lChance);
+				r3[d3][d2+36]=f3[d3][d2+36].get();
 			}
 			if (max < r3[d3][d2+36])
  				max=r3[d3][d2+36];
@@ -196,13 +207,13 @@ int main()
 		{
 			if (d2 == 4 || d2 == 6 || d2 == 8 || d2 == 10)
 			{
-				future<unsigned int> f = async(try3,10, d2,d3, 0, ((r2[10][d2])%n), n, field, lChance);
-				r3[d3][d2+48]=f.get();
+				f3[d3][d2+48] = async(try3,10, d2,d3, 0, ((r2[10][d2])%n), n, field, lChance);
+				r3[d3][d2+48]=f3[d3][d2+48].get();
 			}
 			else
 			{
-				r3[d3][d2+48]=async(try3,10, d2,d3, 0, 0, n, field, lChance);
-				r3[d3][d2+48]=f.get();
+				f3[d3][d2+48]=async(try3,10, d2,d3, 0, 0, n, field, lChance);
+				r3[d3][d2+48]=f3[d3][d2+48].get();
 			}
 			if (max < r3[d3][d2+48])
  				max=r3[d3][d2+48];
@@ -211,13 +222,13 @@ int main()
  		{
  			if (d2 == 4 || d2 == 6 || d2 == 8 || d2 == 10)
  			{
-				future<unsigned int> f = async(try3,12, d2,d3, 0, (r2[12][d2])%n), n, field, lChance);
- 				r3[d3][d2+60]=f.get();
+				f3[d3][d2+60] = async(try3,12, d2,d3, 0, ((r2[12][d2])%n), n, field, lChance);
+ 				r3[d3][d2+60]=f3[d3][d2+60].get();
  			}
 			else
 			{
-				future<unsigned int> f = async(try3,12, d2,d3, 0, 0, n, field, lChance);
-				r3[d3][d2+60]=f.get();
+				f3[d3][d2+60] = async(try3,12, d2,d3, 0, 0, n, field, lChance);
+				r3[d3][d2+60]=f3[d3][d2+60].get();
 			}
  			if (max < r3[d3][d2+60])
  				max=r3[d3][d2+60];
