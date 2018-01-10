@@ -1,12 +1,99 @@
+#include <fstream>
 #include <iostream>
-#include <stack>
+//#include "ThreadPool.h"
+#include "TP.h"
+#include <future>
+#include <thread>
+#include <vector>
+//#include "TRY1.hpp"
 #include <list>
 #include <iterator>
 #include <utility>
-#include <vector>
-#include <fstream>
-//#include "ThreadPool.h"
 using namespace std;
+
+
+void Cycle_Check(vector<pair<unsigned, list<pair<unsigned short, unsigned>>::iterator>> v)
+{
+	vector<pair<unsigned, list<pair<unsigned short, unsigned>>::iterator>>::iterator it;
+	for (it=v.begin(); it!=v.end(); it++)
+	{
+		vector<pair<unsigned, list<pair<unsigned short, unsigned>>::iterator>>::iterator jt;
+		for (jt=it; jt!=v.end(); jt++)
+		{
+			if (jt!=it)
+			{
+				if (it->first == jt->first && it->second == jt->second)
+				{
+					cout << "The longest move is INFINITY." << endl;
+					terminate();
+				}
+			}
+		}
+	}
+}
+
+unsigned int try1(unsigned short d, unsigned int points,
+	unsigned short CurPos, unsigned n,
+	unsigned short* field, list<pair<unsigned short, unsigned>> lChance)	
+{
+	list<pair<unsigned short, unsigned>>::iterator it=lChance.begin();
+	vector<pair<unsigned, list<pair<unsigned short, unsigned>>::iterator>> Pos_and_Chance;
+	Pos_and_Chance.push_back(make_pair(0,it));
+	if (d>n)
+	{
+		CurPos += (d%n);
+	} else CurPos += d;
+
+	do
+	{
+		switch (field[CurPos])
+		{
+			case 1:
+			{
+				switch (it->first)
+				{
+					case 1:
+					{	
+						points+=(it->second);
+						if ((it->second)>n)
+						{
+							CurPos += ((it->second)%n);
+						} else CurPos += (it->second);
+					} break;
+
+					case 2:
+					{
+						if ((it->second)>CurPos)
+						{
+							CurPos -= ((it->second)%n);
+						} else CurPos -= (it->second);
+						points-=(it->second);
+					} break;
+					
+					case 3:
+					{
+						CurPos=0;
+						points+=(n-CurPos);
+					} break;
+				}
+				Pos_and_Chance.push_back(make_pair(CurPos,it));
+				advance(it, 1);
+				if (it==lChance.end())
+				{
+					lChance.begin();
+					Cycle_Check(Pos_and_Chance);
+				}
+			} break;
+			case 0:
+			{
+				points += d;
+				return points;	
+			} break;	
+		}
+	} while (1);
+	return points;
+}
+
 
 /*stack<unsigned short> stackreform(stack<unsigned short> s)
 {
@@ -19,23 +106,7 @@ using namespace std;
 
 
 
-/*void Cycle_Check(vector<pair<unsigned, int>> v)
-{
-	vector<pair<unsigned, int>>::iterator it;
-	for (it=v.begin(); it!=v.end(); it++)
-	{
-		vector<pair<unsigned, int>>::iterator jt;
-		for (jt=v.begin(); jt!=v.end(); jt++)
-		{
-			if (v[i]==v[j])
-			{
-				cout << "The longest move is INFINITY." << endl;
-				terminate();
-			}
-		}
-	}
-}
-*/
+
 /*int foo(int a)
 {
 	cout << a << endl;
@@ -77,16 +148,43 @@ int main()
 	}
 	cout << "\n\n";
 	Map.close();
-
-	list<pair<unsigned short, unsigned>>::iterator it;
+int* r1;
+	//vector <future<unsigned>> f1;
+	r1=new int[20];
+	/*list<pair<unsigned short, unsigned>>::iterator it;
 	for (it=lChance.begin(); it!=lChance.end(); it++)
 	{
 		cout << it->first << endl;
+	}*/
+
+
+
+	//ThreadPool pool;
+	ThreadPool pool(4);
+	vector <future<int>> f1;
+	for (auto i=0; i<20; i++)
+	{
+		/*future<unsigned> f1/*[i]=async(try1,(i+3), 0,0,n,field, lChance);
+		r1[i]=f1/*[i].get();*/
+		//r1[i] = pool.runAsync<unsigned int>(&try1,3, 0,0,n,field, lChance);
+
+		f1[i]=pool.enqueue(&try1,3, 0,0,n,field, lChance);
+		cout << "i = " << i << endl;
+		//cout << "r[i] = " << r1[i] << endl;
+	}
+	for (auto i=0; i<20; i++)
+	{
+		r1[i]=f1[i].get();
 	}
 
-
-
-
+	/*for (unsigned i=0; i<20; i++)
+	{
+		while(!(r1[i]).ready)
+		{
+			cout << "i = " << i << endl;
+			cout << "r[i] = " << (r1[i]).data << endl;
+		}
+	}*/
 
 
 
