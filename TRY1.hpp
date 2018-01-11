@@ -28,7 +28,7 @@ unsigned int try1(unsigned short d, unsigned int points,
 	unsigned short CurPos, unsigned n,
 	unsigned short* field, list<pair<unsigned short, unsigned>> lChance)	
 {
-	list<pair<unsigned short, unsigned>>::iterator it;
+	list<pair<unsigned short, unsigned>>::iterator it=lChance.begin();
 	vector<pair<unsigned, list<pair<unsigned short, unsigned>>::iterator>> Pos_and_Chance;
 	Pos_and_Chance.push_back(make_pair(0,it));
 	if (d>n)
@@ -206,7 +206,7 @@ unsigned int try3(unsigned short d1, unsigned short d2,
 	bool second = false;
 	bool third = false;
 	bool thirdAfterChance = false;
-	list<pair<unsigned short, unsigned>>::iterator it;
+	list<pair<unsigned short, unsigned>>::iterator it=lChance.begin();
 	vector<pair<unsigned, list<pair<unsigned short, unsigned>>::iterator>> Pos_and_Chance;
 	Pos_and_Chance.push_back(make_pair(0,it));
 
