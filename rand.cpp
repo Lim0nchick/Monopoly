@@ -1,7 +1,7 @@
 #include <fstream>
 #include <iostream>
-//#include "ThreadPool.h"
-#include "TP.h"
+#include "ThreadPool.h"
+//#include "TP.h"
 #include <future>
 #include <thread>
 #include <vector>
@@ -148,9 +148,9 @@ int main()
 	}
 	cout << "\n\n";
 	Map.close();
-int* r1;
+//int* r1;
 	//vector <future<unsigned>> f1;
-	r1=new int[20];
+	//r1=new int[20];
 	/*list<pair<unsigned short, unsigned>>::iterator it;
 	for (it=lChance.begin(); it!=lChance.end(); it++)
 	{
@@ -159,22 +159,33 @@ int* r1;
 
 
 
-	//ThreadPool pool;
-	ThreadPool pool(4);
-	vector <future<int>> f1;
+	ThreadPool pool;
+	//ThreadPool pool/*(4)*/;
+	//cout << "i = " << endl;
+	vector <unsigned> r1;
+	vector <future<unsigned>> f1;
+	//cout << "i = " << endl;
+	vector<unsigned>::iterator it;
+	//vector<future<unsigned>>::iterator ft=f1.begin();
 	for (auto i=0; i<20; i++)
 	{
 		/*future<unsigned> f1/*[i]=async(try1,(i+3), 0,0,n,field, lChance);
 		r1[i]=f1/*[i].get();*/
 		//r1[i] = pool.runAsync<unsigned int>(&try1,3, 0,0,n,field, lChance);
-
-		f1[i]=pool.enqueue(&try1,3, 0,0,n,field, lChance);
-		cout << "i = " << i << endl;
+cout << "i = "  << endl;
+		//f1[i]=pool.runAsync<unsigned>(&try1,i, 0,0,n,field, lChance);
+//unsigned tmp=pool.runAsync<unsigned>(&try1, 3, 0,0,n,field, lChance);
+		//*ft=async(try1,(i+3), 0,0,n,field, lChance);
+		r1.push_back(pool.runAsync<unsigned>(&try1, 3, 0,0,n,field, lChance));
+		cout << "i = "  << endl;
+		//ft++;
 		//cout << "r[i] = " << r1[i] << endl;
 	}
-	for (auto i=0; i<20; i++)
+	cout << "\n\n";
+	for (it=r1.begin(); it!=r1.end(); it++)
 	{
-		r1[i]=f1[i].get();
+	//	r1[i]=f1[i].get();
+		cout <<"\t::\t" << *it << endl;
 	}
 
 	/*for (unsigned i=0; i<20; i++)
