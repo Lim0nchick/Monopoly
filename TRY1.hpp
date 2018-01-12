@@ -91,10 +91,11 @@ unsigned int try2(unsigned short d1, unsigned short d2, unsigned n,
  unsigned int points, unsigned short* field, unsigned short CurPos,
  list<pair<unsigned short, unsigned>> lChance)	
 {
+	cout << "try2 begin" << endl;
 	bool first;
 	bool second;
 	bool secondAfterChance;
-	list<pair<unsigned short, unsigned>>::iterator it;
+	list<pair<unsigned short, unsigned>>::iterator it=lChance.begin();
 	vector<pair<unsigned, list<pair<unsigned short, unsigned>>::iterator>> Pos_and_Chance;
 	Pos_and_Chance.push_back(make_pair(0,it));
 
@@ -193,6 +194,7 @@ unsigned int try2(unsigned short d1, unsigned short d2, unsigned n,
 				}
 			}
 		}
+		cout << "iteration" << endl;
 	} while (1);
 	return points;
 }
