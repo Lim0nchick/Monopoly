@@ -72,7 +72,7 @@ unsigned int try1(unsigned short d, unsigned int points,
 				advance(it, 1);
 				if (it==lChance.end())
 				{
-					lChance.begin();
+					it=lChance.begin();
 					Cycle_Check(Pos_and_Chance);
 				}
 			} break;
@@ -189,7 +189,7 @@ unsigned int try2(unsigned short d1, unsigned short d2, unsigned n,
 				advance(it, 1);
 				if (it==lChance.end())
 				{
-					lChance.begin();
+					it=lChance.begin();
 					Cycle_Check(Pos_and_Chance);
 				}
 			}
@@ -317,7 +317,7 @@ unsigned int try3(unsigned short d1, unsigned short d2,
 				advance(it, 1);
 				if (it==lChance.end())
 				{
-					lChance.begin();
+					it=lChance.begin();
 					Cycle_Check(Pos_and_Chance);
 				}
 			}
