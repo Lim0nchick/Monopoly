@@ -12,27 +12,29 @@
 using namespace std;
 
 
-void Cycle_Check(vector<pair<unsigned, list<pair<unsigned short, unsigned>>::iterator>> v)
+void Cycle_Check(vector<unsigned> v)
 {
-	vector<pair<unsigned, list<pair<unsigned short, unsigned>>::iterator>>::iterator it;
+	vector<unsigned>::iterator it;
 	for (it=v.begin(); it!=v.end(); it++)
 	{
-		vector<pair<unsigned, list<pair<unsigned short, unsigned>>::iterator>>::iterator jt;
+		vector<unsigned>::iterator jt;
 		for (jt=it; jt!=v.end(); jt++)
 		{
 			if (jt!=it)
 			{
-				if (it->first == jt->first && it->second == jt->second)
+				//if ((it->first == jt->first) && (it->second == jt->second))
+				if (*it=*jt)
 				{
-					cout << "The longest move is INFINITY." << endl;
-					terminate();
+					cout << "CYCLE" << endl; // WTF??? why print always???
+					return;
+					//terminate();
 				}
 			}
 		}
 	}
 }
 
-unsigned int try1(unsigned short d, unsigned int points,
+/*unsigned int try1(unsigned short d, unsigned int points,
 	unsigned short CurPos, unsigned n,
 	unsigned short* field, list<pair<unsigned short, unsigned>> lChance)	
 {
@@ -92,7 +94,7 @@ unsigned int try1(unsigned short d, unsigned int points,
 		}
 	} while (1);
 	return points;
-}
+}*/
 
 
 /*stack<unsigned short> stackreform(stack<unsigned short> s)
@@ -120,7 +122,17 @@ unsigned int try1(unsigned short d, unsigned int points,
 
 int main()
 {
-	srand (time(0));
+	vector<unsigned> v;
+	v.push_back(3);
+	//v.push_back(5);
+	//v.push_back(7);
+	v.push_back(1);
+	//v.push_back(3);
+	//v.push_back(9);
+	//v.push_back(0);
+	//v.push_back(8);
+Cycle_Check(v);
+	/*srand (time(0));
 	unsigned short points = 0;
 	unsigned short n;
 	
@@ -159,10 +171,10 @@ int main()
 
 
 
-	ThreadPool pool;
+	/*ThreadPool pool;
 	//ThreadPool pool/*(4)*/;
 	//cout << "i = " << endl;
-	vector <unsigned> r1;
+	/*vector <unsigned> r1;
 	vector <future<unsigned>> f1;
 	//cout << "i = " << endl;
 	vector<unsigned>::iterator it;
@@ -172,21 +184,21 @@ int main()
 		/*future<unsigned> f1/*[i]=async(try1,(i+3), 0,0,n,field, lChance);
 		r1[i]=f1/*[i].get();*/
 		//r1[i] = pool.runAsync<unsigned int>(&try1,3, 0,0,n,field, lChance);
-cout << "i = "  << endl;
+//cout << "i = "  << endl;
 		//f1[i]=pool.runAsync<unsigned>(&try1,i, 0,0,n,field, lChance);
 //unsigned tmp=pool.runAsync<unsigned>(&try1, 3, 0,0,n,field, lChance);
 		//*ft=async(try1,(i+3), 0,0,n,field, lChance);
-		r1.push_back(pool.runAsync<unsigned>(&try1, 3, 0,0,n,field, lChance));
-		cout << "i = "  << endl;
+		//r1.push_back(pool.runAsync<unsigned>(&try1, 3, 0,0,n,field, lChance));
+	//	cout << "i = "  << endl;
 		//ft++;
 		//cout << "r[i] = " << r1[i] << endl;
-	}
-	cout << "\n\n";
-	for (it=r1.begin(); it!=r1.end(); it++)
-	{
+	//}
+	///cout << "\n\n";
+	//for (it=r1.begin(); it!=r1.end(); it++)
+	//{
 	//	r1[i]=f1[i].get();
-		cout <<"\t::\t" << *it << endl;
-	}
+//		cout <<"\t::\t" << *it << endl;
+	//}
 
 	/*for (unsigned i=0; i<20; i++)
 	{

@@ -14,7 +14,7 @@ void Cycle_Check(vector<pair<unsigned, list<pair<unsigned short, unsigned>>::ite
 		{
 			if (jt!=it)
 			{
-				if (it->first == jt->first && it->second == jt->second)
+				if ((it->first == jt->first) && (it->second == jt->second))
 				{
 					cout << "The longest move is INFINITY." << endl;
 					terminate();
@@ -47,19 +47,23 @@ unsigned int try1(unsigned short d, unsigned int points,
 					case 1:
 					{	
 						points+=(it->second);
-						if ((it->second)>n)
+						if ((it->second)>(n-CurPos))
 						{
-							CurPos += ((it->second)%n);
+							CurPos += ((it->second)%(n-CurPos));
 						} else CurPos += (it->second);
 					} break;
 
 					case 2:
 					{
+						
 						if ((it->second)>CurPos)
 						{
-							CurPos -= ((it->second)%n);
+							CurPos += (n-(it->second));
 						} else CurPos -= (it->second);
-						points-=(it->second);
+						if ((it->second)>points)
+							points = 0;
+						else
+							points-=(it->second);
 					} break;
 					
 					case 3:
@@ -91,7 +95,6 @@ unsigned int try2(unsigned short d1, unsigned short d2, unsigned n,
  unsigned int points, unsigned short* field, unsigned short CurPos,
  list<pair<unsigned short, unsigned>> lChance)	
 {
-	cout << "try2 begin" << endl;
 	bool first;
 	bool second;
 	bool secondAfterChance;
@@ -134,9 +137,9 @@ unsigned int try2(unsigned short d1, unsigned short d2, unsigned n,
 				}
 				if (second)
 				{
-					if (d2>n)
+					if ((CurPos+d2)>n)
 					{
-						CurPos += (d2%n);
+						CurPos -= d2;
 					} else
 					{
 						CurPos += d2;
@@ -165,18 +168,21 @@ unsigned int try2(unsigned short d1, unsigned short d2, unsigned n,
 					case 1:
 					{
 						points+=(it->second);
-						if ((it->second)>n)
+						if ((it->second)>(n-CurPos))
 						{
-							CurPos += ((it->second)%n);
+							CurPos += ((it->second)%(n-CurPos));
 						} else CurPos += (it->second);
 					} break;
 					case 2:
 					{
 						if ((it->second)>CurPos)
 						{
-							CurPos -= ((it->second)%n);
+							CurPos += (n-(it->second));
 						} else CurPos -= (it->second);
-						points-=(it->second);
+						if ((it->second)>points)
+							points = 0;
+						else
+							points-=(it->second);
 					} break;
 					
 					case 3:
@@ -192,9 +198,8 @@ unsigned int try2(unsigned short d1, unsigned short d2, unsigned n,
 					it=lChance.begin();
 					Cycle_Check(Pos_and_Chance);
 				}
-			}
+			}break;
 		}
-		cout << "iteration" << endl;
 	} while (1);
 	return points;
 }
@@ -211,7 +216,7 @@ unsigned int try3(unsigned short d1, unsigned short d2,
 	list<pair<unsigned short, unsigned>>::iterator it=lChance.begin();
 	vector<pair<unsigned, list<pair<unsigned short, unsigned>>::iterator>> Pos_and_Chance;
 	Pos_and_Chance.push_back(make_pair(0,it));
-
+cout << "2" << endl;
 	if (CurPos!=0)
 	{
 		first = false;
@@ -225,7 +230,7 @@ unsigned int try3(unsigned short d1, unsigned short d2,
 			case 1:
 			{
 				thirdAfterChance = true;
-			}
+			} break;
 		}
 	} else
 	{
@@ -235,13 +240,14 @@ unsigned int try3(unsigned short d1, unsigned short d2,
 		} else CurPos += d1;
 	}
 	Pos_and_Chance.push_back(make_pair(CurPos,it));
-	
+cout << "3" << endl;
 	do
 	{
 		switch (field[CurPos])
 		{
 			case 0:
 			{
+				//cout << "case Empty" << endl;
 				if (thirdAfterChance)
 				{
 					points += d3;
@@ -249,9 +255,9 @@ unsigned int try3(unsigned short d1, unsigned short d2,
 				}
 				if (third)
 				{
-					if (d3>n)
+					if ((CurPos+d3)>n)
 					{
-						CurPos += (d3%n);
+						CurPos -= d3;
 					} else CurPos += d3;
 					if (field[CurPos] == 0)
 					{
@@ -265,9 +271,9 @@ unsigned int try3(unsigned short d1, unsigned short d2,
 				}
 				if (second)
 				{
-					if (d2>n)
+					if ((CurPos+d2)>n)
 					{
-						CurPos += (d2%n);
+						CurPos -= d2;
 					} else CurPos += d2;
 					if (field[CurPos] == 0)
 					{
@@ -282,19 +288,22 @@ unsigned int try3(unsigned short d1, unsigned short d2,
 					second = true;
 					first = false;
 				}
+				
 				Pos_and_Chance.push_back(make_pair(CurPos,it));
+			//	cout << "case Empty END" << endl;
 			} break;
 
 			case 1:
 			{
+				//cout << "case Chance" << endl;
 				switch (it->first)
 				{
 					case 1:
 					{
 						points+=(it->second);
-						if ((it->second)>n)
+						if ((it->second)>(n-CurPos))
 						{
-							CurPos += ((it->second)%n);
+							CurPos -= (n-(it->second));
 						} else CurPos += (it->second);
 					} break;
 
@@ -302,9 +311,12 @@ unsigned int try3(unsigned short d1, unsigned short d2,
 					{
 						if ((it->second)>CurPos)
 						{
-							CurPos -= ((it->second)%n);
+							CurPos += (n-(it->second));
 						} else CurPos -= (it->second);
-						points-=(it->second);
+						if ((it->second)>points)
+							points = 0;
+						else
+							points-=(it->second);
 					} break;
 					
 					case 3:
@@ -318,11 +330,14 @@ unsigned int try3(unsigned short d1, unsigned short d2,
 				if (it==lChance.end())
 				{
 					it=lChance.begin();
+					cout << "Cycle_Check" << endl;
 					Cycle_Check(Pos_and_Chance);
+					cout << "Cycle_Check complete" << endl;
 				}
-			}
+				//cout << "case Chance END" << endl;
+			} break;
 		}
-	} while (1);
+	} while (points>=0);
 	return points;
 }
 
