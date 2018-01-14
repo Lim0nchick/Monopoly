@@ -33,7 +33,7 @@ unsigned int try1(unsigned short d, unsigned int points,
 	Pos_and_Chance.push_back(make_pair(0,it));
 	if (d>n)
 	{
-		CurPos += (d%n);
+		CurPos -= (n-d);
 	} else CurPos += d;
 
 	do
@@ -139,7 +139,7 @@ unsigned int try2(unsigned short d1, unsigned short d2, unsigned n,
 				{
 					if ((CurPos+d2)>n)
 					{
-						CurPos -= d2;
+						CurPos -= (n-d2);
 					} else
 					{
 						CurPos += d2;
@@ -243,11 +243,23 @@ cout << "2" << endl;
 cout << "3" << endl;
 	do
 	{
+		cout << endl;
+		cout << endl;
+		cout << "CurPos = " << CurPos << endl;
+		cout << "field[CurPos] = " << field[CurPos] << endl;
+		cout << "Chance Number: " << distance(lChance.begin(), it) << endl;
+		cout << "Chance Type: " << it->first << endl;
+		cout << "Chance Count: " << it->second << endl;
+		cout << "first = " << first << endl;
+		cout << "second = " << second << endl;
+		cout << "third = " << third << endl;
+		cout << "thirdAfterChance = " << thirdAfterChance << endl;
 		switch (field[CurPos])
 		{
 			case 0:
 			{
-				//cout << "case Empty" << endl;
+				cout << endl;
+				cout << "case Empty" << endl;
 				if (thirdAfterChance)
 				{
 					points += d3;
@@ -257,7 +269,7 @@ cout << "3" << endl;
 				{
 					if ((CurPos+d3)>n)
 					{
-						CurPos -= d3;
+						CurPos -= (n-d3);
 					} else CurPos += d3;
 					if (field[CurPos] == 0)
 					{
@@ -269,11 +281,11 @@ cout << "3" << endl;
 						thirdAfterChance = true;
 					}
 				}
-				if (second)
+				if (second) 
 				{
 					if ((CurPos+d2)>n)
 					{
-						CurPos -= d2;
+						CurPos -=(n-d2);
 					} else CurPos += d2;
 					if (field[CurPos] == 0)
 					{
@@ -281,6 +293,8 @@ cout << "3" << endl;
 						second = false;
 						third = true;
 					}
+					cout << "if(second) complete" << endl;
+
 				}
 				if (first)
 				{
@@ -288,14 +302,16 @@ cout << "3" << endl;
 					second = true;
 					first = false;
 				}
-				
-				Pos_and_Chance.push_back(make_pair(CurPos,it));
-			//	cout << "case Empty END" << endl;
+				//cout << "if(first) complete" << endl;
+				cout << "CurPos = " << CurPos << endl;
+				cout << "Chance Number: " << distance(lChance.begin(), it) << endl;
+				Pos_and_Chance.push_back(make_pair(CurPos, it)); // ПАДАЕТ ЗДЕСЯ!!!
+				cout << "case Empty END" << endl;
 			} break;
 
 			case 1:
 			{
-				//cout << "case Chance" << endl;
+				cout << "case Chance" << endl;
 				switch (it->first)
 				{
 					case 1:
@@ -325,7 +341,9 @@ cout << "3" << endl;
 						points+=(n-CurPos);
 					} break;
 				}
-				Pos_and_Chance.push_back(make_pair(CurPos,it));
+				cout << "CurPos = " << CurPos << endl;
+				cout << "Chance Number: " << distance(lChance.begin(), it) << endl;
+				Pos_and_Chance.push_back(make_pair(CurPos, it));
 				advance(it, 1);
 				if (it==lChance.end())
 				{
@@ -334,10 +352,10 @@ cout << "3" << endl;
 					Cycle_Check(Pos_and_Chance);
 					cout << "Cycle_Check complete" << endl;
 				}
-				//cout << "case Chance END" << endl;
+				cout << "case Chance END" << endl;
 			} break;
 		}
-	} while (points>=0);
+	} while (1);
 	return points;
 }
 
