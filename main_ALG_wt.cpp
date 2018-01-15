@@ -7,7 +7,7 @@
 #include "TRY1.hpp"
 #include <list>
 #include <iterator>
-#include "print_result.hpp"
+//#include "print_result.hpp"
 using namespace std;
 
 
@@ -41,6 +41,8 @@ int main()
 	cout << "\n\n";
 	Map.close();
 
+	vector<pair<unsigned, list<pair<unsigned short, unsigned>>::iterator>> Pos_and_Chance;
+
 	unsigned short D1=0, D2=0, D3=0;
 	unsigned* r1;	
 	r1=new unsigned[9];
@@ -51,7 +53,8 @@ int main()
 		if (max < r1[i])
 		{
 			max = r1[i];
-			D1 = i+3;
+			//D1 = i+3;
+			Pos_and_Chance = Pos_and_Chance1((i+3), 0,0,n,field, lChance) // ТРЭК 
 		}
 	}
 	cout << "r1 completed" << endl;
@@ -72,8 +75,10 @@ int main()
  			if (max < r2[d1][d2])
  			{
  				max=r2[d1][d2];
- 				D1=d1;
- 				D2=d2;
+
+ 				//D1=d1;
+ 				//D2=d2;
+
  			}
  		}
  	}
@@ -105,7 +110,7 @@ int main()
  	}
  	cout << "The longest move is " << max << "." << endl;
  	cout << "Print track in result.dat, please wait...";
- 	print_result(D1, D2, D3, max); // underfined
+ 	//print_result(D1, D2, D3, max); // underfined
  	cout << "Complete." << endl;
  	delete r1; delete r2; delete r3;
 	//system("pause"); // for windows-family OSs

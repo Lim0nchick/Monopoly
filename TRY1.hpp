@@ -294,7 +294,6 @@ cout << "3" << endl;
 						third = true;
 					}
 					cout << "if(second) complete" << endl;
-
 				}
 				if (first)
 				{
@@ -302,7 +301,6 @@ cout << "3" << endl;
 					second = true;
 					first = false;
 				}
-				//cout << "if(first) complete" << endl;
 				cout << "CurPos = " << CurPos << endl;
 				cout << "Chance Number: " << distance(lChance.begin(), it) << endl;
 				Pos_and_Chance.push_back(make_pair(CurPos, it)); // ПАДАЕТ ЗДЕСЯ!!!
@@ -358,122 +356,3 @@ cout << "3" << endl;
 	} while (1);
 	return points;
 }
-
-/*unsigned int try3(unsigned short d1, unsigned short d2, unsigned short d3, unsigned short d4,
- unsigned int points, unsigned short CurPos,
- unsigned short* field, stack<unsigned short> sChance1)	
-{
-	stack<unsigned short> sChance1;
-	stack<unsigned short> sChance2;
-	
-	bool first = true;
-	bool second = false;
-	bool third = false;
-	bool fourth = false;
-	bool fourthAfterChance = false;
-
-	if (d1>n)
-	{
-		step = d1%n;
-		CurPos += step;
-	} else CurPos += d1;
-
-	do
-	{
-		switch field[CurPos]
-		{
-			case 0:
-			{
-				if (fourthAfterChance)
-				{
-					points += d4;
-					return points;
-				}
-				if (fourth)
-				{
-					if (d4<n)
-					{
-						step = d4%n;
-						CurPos += step;
-					} else CurPos += d4;
-					if (field[CurPos] == 0)
-					{
-						points += d4;
-						return points;
-					} else 
-					{
-						fourth = false;
-						fourthAfterChance = true;
-					}
-				}
-				if (third)
-				{
-					if (d3>n)
-					{
-						step = d3%n;
-						CurPos += step;
-					} else CurPos += d3;
-					if (field[CurPos] == 0)
-					{
-						points += d3;
-						third = false;
-						fourth = true;
-					}
-				}
-				if (second)
-				{
-					if (d2>n)
-					{
-						step = d2%n;
-						CurPos += step;
-					} else CurPos += d2;
-					if (field[CurPos] == 0)
-					{
-						points += d2;
-						second = false;
-						third = true;
-					}
-				}
-				if (first)
-				{
-					points += d1;
-					second = true;
-					first = false;
-				}
-			} break;
-			} break;
-
-			case 1:
-			{
-				switch (Card)
-				{
-					case 1:
-					{
-						points+=3;
-						if (3>n)
-						{
-							step = 3%n;
-							CurPos += step;
-						} else CurPos += 3;
-					} break;
-					case 2:
-					{
-						if (3>CurPos)
-						{
-							step = 3%n;
-							CurPos -= step;
-						} else CurPos -= 3;
-						points-=3;
-					} break;
-					
-					case 3:
-					{
-						CurPos=0;
-						points+=(n-CurPos);
-					} break;
-				}
-			}
-		}
-	} while (1);
-	return points;
-}*/
