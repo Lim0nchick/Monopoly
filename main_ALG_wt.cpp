@@ -41,7 +41,7 @@ int main()
 	cout << "\n\n";
 	Map.close();
 
-	vector<pair<unsigned, list<pair<unsigned short, unsigned>>::iterator>> Pos_and_Chance;
+	//vector<pair<unsigned, list<pair<unsigned short, unsigned>>::iterator>> Pos_and_Chance;
 
 	unsigned short D1=0, D2=0, D3=0;
 	unsigned* r1;	
@@ -54,7 +54,7 @@ int main()
 		{
 			max = r1[i];
 			//D1 = i+3;
-			Pos_and_Chance = Pos_and_Chance1((i+3), 0,0,n,field, lChance) // ТРЭК 
+			//Pos_and_Chance = Pos_and_Chance1((i+3), 0,0,n,field, lChance) // ТРЭК 
 		}
 	}
 	cout << "r1 completed" << endl;
@@ -80,8 +80,11 @@ int main()
  				//D2=d2;
 
  			}
+ 			cout << r2[d1][d2] << "\t"; 
  		}
- 	}
+ 		cout << endl;
+ 		cout << endl;
+  	}
  	cout << "r2 completed" << endl;
  	
  	
@@ -94,25 +97,33 @@ int main()
  		for (unsigned short d2 = 2; d2 < 76; d2+=2)
  		{
  			if ((d2%12) == 4 || (d2%12) == 6 || (d2%12) == 8 || (d2%12) == 10)
-				r3[d3][d2] = try3(d1, (d2%12),d3, n, (r2[d1][d2%12]), ((r2[d1][d2%12])%n), field, lChance);
+ 			{
+ 				CurPos = (r2[d1][d2%12])%n;
+ 				//if (CurPos == 20) CurPos = 0;
+				r3[d3][d2] = try3(d1, (d2%12),d3, n, (r2[d1][d2%12]), CurPos, field, lChance);
+ 			}
 			else
+			{
+				CurPos = (r2[d1][d2%12])%n;
+ 				if (CurPos == 20) CurPos = 0;
 				r3[d3][d2] = try3(d1, (d2%12),d3, n, 0, 0, field, lChance);
+			}
 			if (max < r3[d3][d2])
 			{
  				max = r3[d3][d2];
- 				D1=d1;
+ 				/*D1=d1;
  				D2=d2;
- 				D3=d3;
+ 				D3=d3;*/
 			}
  			if (d2 == 12 || d2 == 24 || d2 == 36 || d2 == 48 || d2 == 60)
  				d1+=2;
  		}
  	}
  	cout << "The longest move is " << max << "." << endl;
- 	cout << "Print track in result.dat, please wait...";
+ 	//cout << "Print track in result.dat, please wait...";
  	//print_result(D1, D2, D3, max); // underfined
- 	cout << "Complete." << endl;
- 	delete r1; delete r2; delete r3;
+ 	//cout << "Complete." << endl;
+ 	//delete r1; delete r2; //delete r3;
 	//system("pause"); // for windows-family OSs
 	getchar(); // выступает в роли аналога "system("pause");"
 	return 0;

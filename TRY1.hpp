@@ -4,12 +4,12 @@
 #include <utility>
 using namespace std;
 
-void Cycle_Check(vector<pair<unsigned, list<pair<unsigned short, unsigned>>::iterator>> v)
+void Cycle_Check(vector<pair<unsigned, int>> v)
 {
-	vector<pair<unsigned, list<pair<unsigned short, unsigned>>::iterator>>::iterator it;
+	vector<pair<unsigned, int>>::iterator it;
 	for (it=v.begin(); it!=v.end(); it++)
 	{
-		vector<pair<unsigned, list<pair<unsigned short, unsigned>>::iterator>>::iterator jt;
+		vector<pair<unsigned, int>>::iterator jt;
 		for (jt=it; jt!=v.end(); jt++)
 		{
 			if (jt!=it)
@@ -29,8 +29,8 @@ unsigned int try1(unsigned short d, unsigned int points,
 	unsigned short* field, list<pair<unsigned short, unsigned>> lChance)	
 {
 	list<pair<unsigned short, unsigned>>::iterator it=lChance.begin();
-	vector<pair<unsigned, list<pair<unsigned short, unsigned>>::iterator>> Pos_and_Chance;
-	Pos_and_Chance.push_back(make_pair(0,it));
+	vector<pair<unsigned, int>> Pos_and_Chance;
+	Pos_and_Chance.push_back(make_pair(0,distance(lChance.begin(), it)));
 	if (d>n)
 	{
 		CurPos -= (n-d);
@@ -72,7 +72,7 @@ unsigned int try1(unsigned short d, unsigned int points,
 						points+=(n-CurPos);
 					} break;
 				}
-				Pos_and_Chance.push_back(make_pair(CurPos,it));
+				Pos_and_Chance.push_back(make_pair(CurPos,distance(lChance.begin(), it)));
 				advance(it, 1);
 				if (it==lChance.end())
 				{
@@ -99,8 +99,8 @@ unsigned int try2(unsigned short d1, unsigned short d2, unsigned n,
 	bool second;
 	bool secondAfterChance;
 	list<pair<unsigned short, unsigned>>::iterator it=lChance.begin();
-	vector<pair<unsigned, list<pair<unsigned short, unsigned>>::iterator>> Pos_and_Chance;
-	Pos_and_Chance.push_back(make_pair(0,it));
+	vector<pair<unsigned, int>> Pos_and_Chance;
+	Pos_and_Chance.push_back(make_pair(0,distance(lChance.begin(), it)));
 
 	if (CurPos!=0)
 	{
@@ -158,7 +158,7 @@ unsigned int try2(unsigned short d1, unsigned short d2, unsigned n,
 					second = true;
 					first = false;
 				}
-				Pos_and_Chance.push_back(make_pair(CurPos,it));
+				Pos_and_Chance.push_back(make_pair(CurPos,distance(lChance.begin(), it)));
 			} break;
 
 			case 1:
@@ -191,7 +191,7 @@ unsigned int try2(unsigned short d1, unsigned short d2, unsigned n,
 						points+=(n-CurPos);
 					} break;
 				}
-				Pos_and_Chance.push_back(make_pair(CurPos,it));
+				Pos_and_Chance.push_back(make_pair(CurPos,distance(lChance.begin(), it)));
 				advance(it, 1);
 				if (it==lChance.end())
 				{
@@ -214,8 +214,8 @@ unsigned int try3(unsigned short d1, unsigned short d2,
 	bool third = false;
 	bool thirdAfterChance = false;
 	list<pair<unsigned short, unsigned>>::iterator it=lChance.begin();
-	vector<pair<unsigned, list<pair<unsigned short, unsigned>>::iterator>> Pos_and_Chance;
-	Pos_and_Chance.push_back(make_pair(0,it));
+	vector<pair<unsigned, int>> Pos_and_Chance;
+	Pos_and_Chance.push_back(make_pair(0,distance(lChance.begin(), it)));
 cout << "2" << endl;
 	if (CurPos!=0)
 	{
@@ -239,7 +239,7 @@ cout << "2" << endl;
 			CurPos += (d1%n);
 		} else CurPos += d1;
 	}
-	Pos_and_Chance.push_back(make_pair(CurPos,it));
+	Pos_and_Chance.push_back(make_pair(CurPos,distance(lChance.begin(), it)));
 cout << "3" << endl;
 	do
 	{
@@ -303,7 +303,7 @@ cout << "3" << endl;
 				}
 				cout << "CurPos = " << CurPos << endl;
 				cout << "Chance Number: " << distance(lChance.begin(), it) << endl;
-				Pos_and_Chance.push_back(make_pair(CurPos, it)); // ПАДАЕТ ЗДЕСЯ!!!
+			//	Pos_and_Chance.push_back(make_pair(CurPos,  distance(lChance.begin(), it))); // ПАДАЕТ ЗДЕСЯ!!!
 				cout << "case Empty END" << endl;
 			} break;
 
@@ -341,7 +341,7 @@ cout << "3" << endl;
 				}
 				cout << "CurPos = " << CurPos << endl;
 				cout << "Chance Number: " << distance(lChance.begin(), it) << endl;
-				Pos_and_Chance.push_back(make_pair(CurPos, it));
+				//Pos_and_Chance.push_back(make_pair(CurPos, distance(lChance.begin(), it)));
 				advance(it, 1);
 				if (it==lChance.end())
 				{
