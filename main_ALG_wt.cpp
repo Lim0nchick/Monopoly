@@ -7,7 +7,6 @@
 #include "TRY1.hpp"
 #include <list>
 #include <iterator>
-//#include "print_result.hpp"
 using namespace std;
 
 
@@ -49,7 +48,8 @@ int main()
 	unsigned int max = 0;
 	for (auto i=0; i<9; i++)
 	{
-		r1[i] = try1((i+3), 0,0,n,field, lChance);
+		r1[i] = try1((i+3), 0,0,(n-1),field, lChance);
+		cout << r1[i] << "\t";
 		if (max < r1[i])
 		{
 			max = r1[i];
@@ -57,8 +57,9 @@ int main()
 			//Pos_and_Chance = Pos_and_Chance1((i+3), 0,0,n,field, lChance) // ТРЭК 
 		}
 	}
+	cout << endl;
 	cout << "r1 completed" << endl;
-	
+	cout << endl;
  	unsigned** r2;
  	r2 = new unsigned*[14];
 
@@ -69,9 +70,9 @@ int main()
  		for (unsigned short d2 = 0; d2<9; d2++)
  		{
  			if ((d1 == 4) || (d1 == 6) || (d1 == 8) || (d1 == 10))
-				r2[d1][d2] = try2(d1, (d2+3),n, (r1[d1-3]), field, ((r1[d1-3])%n), lChance);
+				r2[d1][d2] = try2(d1, (d2+3),(n-1), (r1[d1-3]), field, ((r1[d1-3])%n), lChance);
 			else 
-				r2[d1][d2] = try2(d1, (d2+3),n, 0, field, 0, lChance);
+				r2[d1][d2] = try2(d1, (d2+3),(n-1), 0, field, 0, lChance);
  			if (max < r2[d1][d2])
  			{
  				max=r2[d1][d2];
@@ -91,33 +92,43 @@ int main()
  	unsigned** r3;
  	r3 = new unsigned*[13];
 	unsigned d1 = 2;
- 	for (unsigned short d3 = 2; d3<13; d3++)
+ 	for (unsigned short d3 = 3; d3<12; d3++)
  	{
- 		r3[d3]=new unsigned[74];
+ 		r3[d3]=new unsigned[76];
  		for (unsigned short d2 = 2; d2 < 76; d2+=2)
  		{
+ 			cout << "d1 = " << d1 << endl;
+ 			cout << "d2 = " << d2 << endl;
+ 			cout << "d3 = " << d3 << endl;
+ 			cout << "r2[d1][d2/12] = " << r2[d1][d2%12] << endl;
+ 			if (d1=14) d1=2;
  			if ((d2%12) == 4 || (d2%12) == 6 || (d2%12) == 8 || (d2%12) == 10)
  			{
- 				CurPos = (r2[d1][d2%12])%n;
- 				//if (CurPos == 20) CurPos = 0;
-				r3[d3][d2] = try3(d1, (d2%12),d3, n, (r2[d1][d2%12]), CurPos, field, lChance);
+ 				//CurPos = (r2[d1][d2%12])%n;
+ 				//cout << "CurPos = " << CurPos << endl;
+ 				if (CurPos == 20) CurPos = 0;
+				r3[d3][d2] = try3(d1, (d2%12),d3, (n-1), (r2[d1][d2%12]), CurPos, field, lChance);
+				cout << "r3[" << d3 << "][" << d2 << "]" << endl;
  			}
 			else
 			{
-				CurPos = (r2[d1][d2%12])%n;
+				//CurPos = (r2[d1][d2%12])%n;
+				//cout << "CurPos = " << CurPos << endl;
  				if (CurPos == 20) CurPos = 0;
-				r3[d3][d2] = try3(d1, (d2%12),d3, n, 0, 0, field, lChance);
+				r3[d3][d2] = try3(d1, (d2%12),d3, (n-1), 0, 0, field, lChance);
+				cout << "r3[" << d3 << "][" << d2 << "]" << endl;
 			}
 			if (max < r3[d3][d2])
 			{
  				max = r3[d3][d2];
- 				/*D1=d1;
- 				D2=d2;
- 				D3=d3;*/
+ 				//D1=d1;
+ 				//D2=d2;
+ 				//D3=d3;
 			}
  			if (d2 == 12 || d2 == 24 || d2 == 36 || d2 == 48 || d2 == 60)
  				d1+=2;
  		}
+ 		d1=2;
  	}
  	cout << "The longest move is " << max << "." << endl;
  	//cout << "Print track in result.dat, please wait...";

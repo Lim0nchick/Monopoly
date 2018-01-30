@@ -12,7 +12,7 @@ void Cycle_Check(vector<pair<unsigned, int>> v)
 		vector<pair<unsigned, int>>::iterator jt;
 		for (jt=it; jt!=v.end(); jt++)
 		{
-			if (jt!=it)
+			if (distance(v.begin(),jt) != distance(v.begin(),it))
 			{
 				if ((it->first == jt->first) && (it->second == jt->second))
 				{
@@ -216,7 +216,7 @@ unsigned int try3(unsigned short d1, unsigned short d2,
 	list<pair<unsigned short, unsigned>>::iterator it=lChance.begin();
 	vector<pair<unsigned, int>> Pos_and_Chance;
 	Pos_and_Chance.push_back(make_pair(0,distance(lChance.begin(), it)));
-cout << "2" << endl;
+
 	if (CurPos!=0)
 	{
 		first = false;
@@ -239,27 +239,17 @@ cout << "2" << endl;
 			CurPos += (d1%n);
 		} else CurPos += d1;
 	}
-	Pos_and_Chance.push_back(make_pair(CurPos,distance(lChance.begin(), it)));
-cout << "3" << endl;
+	cout << "CurPos = " << CurPos << endl;
+	cout << "field[CurPos] = " << field[CurPos] << endl;
 	do
 	{
-		cout << endl;
-		cout << endl;
 		cout << "CurPos = " << CurPos << endl;
-		cout << "field[CurPos] = " << field[CurPos] << endl;
-		cout << "Chance Number: " << distance(lChance.begin(), it) << endl;
-		cout << "Chance Type: " << it->first << endl;
-		cout << "Chance Count: " << it->second << endl;
-		cout << "first = " << first << endl;
-		cout << "second = " << second << endl;
-		cout << "third = " << third << endl;
-		cout << "thirdAfterChance = " << thirdAfterChance << endl;
+		//cout << "field[CurPos] = " << field[CurPos] << endl;
 		switch (field[CurPos])
 		{
 			case 0:
 			{
-				cout << endl;
-				cout << "case Empty" << endl;
+				cout << "Empty case begin" << endl;
 				if (thirdAfterChance)
 				{
 					points += d3;
@@ -270,30 +260,27 @@ cout << "3" << endl;
 					if ((CurPos+d3)>n)
 					{
 						CurPos -= (n-d3);
-					} else CurPos += d3;
+					} else
+					{
+						CurPos += d3;
+						third = false;
+						thirdAfterChance = true;
+					}
 					if (field[CurPos] == 0)
 					{
 						points += d3;
 						return points;
-					} else 
-					{
-						third = false;
-						thirdAfterChance = true;
 					}
 				}
-				if (second) 
+				if (second)
 				{
+					points += d2;
+					second = false;
+					third = true;
 					if ((CurPos+d2)>n)
-					{
-						CurPos -=(n-d2);
-					} else CurPos += d2;
-					if (field[CurPos] == 0)
-					{
-						points += d2;
-						second = false;
-						third = true;
-					}
-					cout << "if(second) complete" << endl;
+						CurPos -= (n-d2);
+					else
+						CurPos += d2;
 				}
 				if (first)
 				{
@@ -301,15 +288,13 @@ cout << "3" << endl;
 					second = true;
 					first = false;
 				}
-				cout << "CurPos = " << CurPos << endl;
-				cout << "Chance Number: " << distance(lChance.begin(), it) << endl;
-			//	Pos_and_Chance.push_back(make_pair(CurPos,  distance(lChance.begin(), it))); // ПАДАЕТ ЗДЕСЯ!!!
-				cout << "case Empty END" << endl;
+				Pos_and_Chance.push_back(make_pair(CurPos,distance(lChance.begin(), it)));
+				cout << "Empty case END" << endl;
 			} break;
 
 			case 1:
 			{
-				cout << "case Chance" << endl;
+				cout << "Chance case begin" << endl;
 				switch (it->first)
 				{
 					case 1:
@@ -317,7 +302,7 @@ cout << "3" << endl;
 						points+=(it->second);
 						if ((it->second)>(n-CurPos))
 						{
-							CurPos -= (n-(it->second));
+							CurPos += ((it->second)%(n-CurPos));
 						} else CurPos += (it->second);
 					} break;
 
@@ -339,20 +324,17 @@ cout << "3" << endl;
 						points+=(n-CurPos);
 					} break;
 				}
-				cout << "CurPos = " << CurPos << endl;
-				cout << "Chance Number: " << distance(lChance.begin(), it) << endl;
-				//Pos_and_Chance.push_back(make_pair(CurPos, distance(lChance.begin(), it)));
+				Pos_and_Chance.push_back(make_pair(CurPos,distance(lChance.begin(), it)));
 				advance(it, 1);
 				if (it==lChance.end())
 				{
 					it=lChance.begin();
-					cout << "Cycle_Check" << endl;
 					Cycle_Check(Pos_and_Chance);
-					cout << "Cycle_Check complete" << endl;
 				}
-				cout << "case Chance END" << endl;
+				cout << "Chance case END" << endl;
 			} break;
 		}
+		//if (CurPos>=20) CurPos = 0;
 	} while (1);
 	return points;
 }
