@@ -1,6 +1,3 @@
-#ifndef _THREADPOOL_H_
-#define _THREADPOOL_H_
-
 #include <functional>
 #include <thread>
 #include <queue>
@@ -149,5 +146,3 @@ private:
 	
 
 };
-
-#endif /*_THREADPOOL_H_*/

@@ -1,11 +1,11 @@
 #include <fstream>
 #include <iostream>
-#include "ThreadPool.h"
+//#include "ThreadPool.h"
 //#include "TP.h"
 #include <future>
 #include <thread>
 #include <vector>
-//#include "TRY1.hpp"
+#include "TRY1.hpp"
 #include <list>
 #include <iterator>
 #include <utility>
@@ -107,7 +107,7 @@ void Cycle_Check(vector<pair<unsigned, unsigned>> v)
 
 
 
-/*int foo(int a)
+int foo(int a)
 {
 	cout << a << endl;
 	if (a==3)
@@ -115,14 +115,22 @@ void Cycle_Check(vector<pair<unsigned, unsigned>> v)
 		cout << "TERMINATE!!!"<< endl;
 		terminate();
 	}else
-	return a;
-}*/
+	//return (a+5);
+	a++;
+}
 
 int main()
 {
+	int a;
+	cin >> a;
+	thread t(foo,cref(a));
+	if (t.joinable())
+		t.join();
+	cout << a << endl;
+	//cout << t << endl;
 	//bool b=true; cout << b << endl;
 	//bool c= false;cout << c << endl;
-	list<pair<unsigned short, unsigned>> lChance;
+/*	list<pair<unsigned short, unsigned>> lChance;
 	list<pair<unsigned short, unsigned>>::iterator it=lChance.begin();
 	vector<pair<unsigned, unsigned>> v;
 	v.push_back(make_pair(3,5));
