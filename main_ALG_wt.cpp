@@ -55,8 +55,8 @@ int main()
 			max = r1[i];
 			//D1 = i+3;
 			//Pos_and_Chance = Pos_and_Chance1((i+3), 0,0,n,field, lChance) // ТРЭК 
-			fstream res("res.dat");
-			res << max << endl;
+			fstream res("result.txt");
+			res << (i+3) << endl;
 			try1p((i+3), 0,0,(n-1),field, lChance, res);
 		}
 	}

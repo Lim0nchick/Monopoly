@@ -5,14 +5,14 @@
 #include <future>
 #include <thread>
 #include <vector>
-#include "TRY1.hpp"
+//#include "TRY1.hpp"
 #include <list>
 #include <iterator>
 #include <utility>
 using namespace std;
 
 
-void Cycle_Check(vector<pair<unsigned, unsigned>> v)
+/*void Cycle_Check(vector<pair<unsigned, unsigned>> v)
 {
 	vector<pair<unsigned, unsigned>>::iterator it;
 	for (it=v.begin(); it!=v.end(); it++)
@@ -107,7 +107,7 @@ void Cycle_Check(vector<pair<unsigned, unsigned>> v)
 
 
 
-int foo(int a)
+/*int foo(int a)
 {
 	cout << a << endl;
 	if (a==3)
@@ -117,11 +117,21 @@ int foo(int a)
 	}else
 	//return (a+5);
 	a++;
-}
+}*/
 
 int main()
 {
-	int a;
+	fstream res;
+	res.open("result.txt");
+	//res << "AAAAAAAAAAAAAA" << endl;
+unsigned short D1,D2;
+	res >> D1 >> '13';
+	res >> D2;
+	cout << D1 << endl;
+	cout << D2 << endl;
+	res.close();
+
+	/*int a;
 	cin >> a;
 	thread t(foo,cref(a));
 	if (t.joinable())
