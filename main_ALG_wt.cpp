@@ -43,6 +43,7 @@ int main()
 	//vector<pair<unsigned, list<pair<unsigned short, unsigned>>::iterator>> Pos_and_Chance;
 
 	//unsigned short D1=0, D2=0, D3=0;
+	fstream res;
 	unsigned* r1;	
 	r1=new unsigned[9];
 	unsigned int max = 0;
@@ -55,9 +56,11 @@ int main()
 			max = r1[i];
 			//D1 = i+3;
 			//Pos_and_Chance = Pos_and_Chance1((i+3), 0,0,n,field, lChance) // ТРЭК 
-			fstream res("result.txt");
+			res.open("result.txt");
 			res << (i+3) << endl;
 			try1p((i+3), 0,0,(n-1),field, lChance, res);
+			res.open("result.txt", ios::out | ios::app);
+			res << "The longest move is " << max << "." << endl;
 		}
 	}
 	cout << endl;
@@ -79,10 +82,19 @@ int main()
  			if (max < r2[d1][d2])
  			{
  				max=r2[d1][d2];
-
- 				//D1=d1;
- 				//D2=d2;
-
+				res.open("result.txt");
+ 				unsigned short D1;
+				res >> D1;
+				res.close();
+				res.open("result.txt", ios::out);
+				res << D1 << endl << (d2+3) << endl;
+				res.close();
+				res.open("result.txt", ios::out | ios::app);
+				try1p(D1, 0,0,(n-1),field, lChance, res);
+				res.open("result.txt", ios::out | ios::app);
+				try2p(D1, (d2+3),(n-1), 0, field, 0, lChance, res);
+				res.open("result.txt", ios::out | ios::app);
+				res << "The longest move is " << max << "." << endl;
  			}
  			cout << r2[d1][d2] << "\t"; 
  		}
@@ -126,9 +138,23 @@ int main()
 			if (max < r3[d3][d2])
 			{
  				max = r3[d3][d2];
- 				D1=d1;
- 				D2=d2%12;
- 				D3=d3;
+ 				unsigned short D1,D2,D3;
+				res >> D1;
+				res >> D2;
+				D3=d3;
+				res.open("result.txt", ios::out);
+				res.close();
+				res.open("result.txt", ios::out | ios::app);
+				res << D1 << endl;
+				res << D2 << endl;
+				res << d3 << endl;
+				try1p(D1, 0,0,(n-1),field, lChance, res);
+				res.open("result.txt", ios::out | ios::app);
+				try2p(D1, (d2+3),(n-1), 0, field, 0, lChance, res);
+				res.open("result.txt", ios::out | ios::app);
+				try3p(D1, (d2%12),d3, (n-1), 0, 0, field, lChance, res);
+				res.open("result.txt", ios::out | ios::app);
+				res << "The longest move is " << max << "." << endl;
 			}
  			if (d2 == 12 || d2 == 24 || d2 == 36 || d2 == 48 || d2 == 60)
  				d1+=2;
@@ -142,7 +168,7 @@ int main()
  	cout << "D1 = " << D1 << endl;
  	cout << "D2 = " << D2 << endl;
  	cout << "D3 = " << D3 << endl;
- 	unsigned int r = try4(D1, D2,D3, (n-1), (r2[D1][D2%12]), CurPos, field, lChance);
+ 	
 
 
  	//cout << "Print track in result.dat, please wait...";

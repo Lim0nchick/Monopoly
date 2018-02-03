@@ -125,7 +125,7 @@ int main()
 	res.open("result.txt");
 	//res << "AAAAAAAAAAAAAA" << endl;
 unsigned short D1,D2;
-	res >> D1 >> '13';
+	res >> D1 >>;
 	res >> D2;
 	cout << D1 << endl;
 	cout << D2 << endl;

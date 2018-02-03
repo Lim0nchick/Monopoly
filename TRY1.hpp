@@ -97,7 +97,7 @@ unsigned int try1(unsigned short d, unsigned int points,
 	
 void try1p(unsigned short d, unsigned int points,
 	unsigned short CurPos, unsigned n,
-	unsigned short* field, list<pair<unsigned short, unsigned>> lChance, fstream res)	
+	unsigned short* field, list<pair<unsigned short, unsigned>> lChance, fstream& res)	
 {
 	list<pair<unsigned short, unsigned>>::iterator it=lChance.begin();
 	vector<pair<unsigned, int>> Pos_and_Chance;
@@ -302,22 +302,7 @@ void try2p(unsigned short d1, unsigned short d2, unsigned n,
 	vector<pair<unsigned, int>> Pos_and_Chance;
 	Pos_and_Chance.push_back(make_pair(0,distance(lChance.begin(), it)));
 
-	unsigned short D1;
-	res >> D1;
-	if (D1==d1)
-	{
-		res.close();
-		res.open("result.txt", ios::out | ios::app);
-	}
-	else
-	{
-		fstream res("result.txt", ios::out); // Cтерли данные в файле
-		res.close();
-		fstream res("result.txt");
-		try1p(D1, 0,0,(n-1),field, lChance, res);
-		res.open("result.txt", ios::out | ios::app);
-	}
-	res << d2 << " is Second dice." << endl;
+	
 	 
 	if (CurPos!=0)
 	{
@@ -432,7 +417,7 @@ void try2p(unsigned short d1, unsigned short d2, unsigned n,
 			}break;
 		}
 	} while (1);
-	return points;
+	return;
 }
 
 unsigned int try3(unsigned short d1, unsigned short d2,
@@ -578,7 +563,7 @@ unsigned int try3(unsigned short d1, unsigned short d2,
 void try3p(unsigned short d1, unsigned short d2,
  unsigned short d3,  unsigned n,
  unsigned int points, unsigned short CurPos,
- unsigned short* field, list<pair<unsigned short, unsigned>> lChance)	
+ unsigned short* field, list<pair<unsigned short, unsigned>> lChance, fstream res)	
 {
 	bool first = true;
 	bool second = false;
@@ -587,27 +572,6 @@ void try3p(unsigned short d1, unsigned short d2,
 	list<pair<unsigned short, unsigned>>::iterator it=lChance.begin();
 	vector<pair<unsigned, int>> Pos_and_Chance;
 	Pos_and_Chance.push_back(make_pair(0,distance(lChance.begin(), it)));
-
-	unsigned short D1,D2;
-	res >> D1;
-	res >> D2;
-	if (D1==d1 && D2==d2)
-	{
-		res.close();
-		res.open("result.txt", ios::out | ios::app);
-		res << d3 << endl;
-	}
-	else
-	{
-		fstream res("result.txt", ios::out); // Cтерли данные в файле
-		res.close();
-		fstream res("result.txt", ios::out | ios::app);
-		res << D1 << endl;
-		res << d2 << endl;
-		try1p(D1, 0,0,(n-1),field, lChance, res);
-		res.open("result.txt", ios::out | ios::app);
-	}
-
 
 	if (CurPos!=0)
 	{
@@ -633,6 +597,7 @@ void try3p(unsigned short d1, unsigned short d2,
 	}
 	//cout << "CurPos = " << CurPos << endl;
 	if (CurPos==(n+1)) CurPos = 0;
+	res << "Go to " << CurPos <<", it's " << field[CurPos] << endl;
 	//cout << "field[CurPos] = " << field[CurPos] << endl;
 	do
 	{
@@ -647,7 +612,8 @@ void try3p(unsigned short d1, unsigned short d2,
 				if (thirdAfterChance)
 				{
 					points += d3;
-					return points;
+					res.close();
+					return;
 				}
 				if (third)
 				{
@@ -663,7 +629,8 @@ void try3p(unsigned short d1, unsigned short d2,
 					if (field[CurPos] == 0)
 					{
 						points += d3;
-						return points;
+						res.close();
+						return;
 					}
 				}
 				if (second)
@@ -738,5 +705,5 @@ void try3p(unsigned short d1, unsigned short d2,
 		}
 		//if (CurPos>=20) CurPos = 0;
 	} while (1);
-	return points;
+	return;
 }
