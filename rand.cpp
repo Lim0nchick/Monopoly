@@ -172,20 +172,8 @@ cout << endl << endl << ChanceStackSize << endl;
 	vector<pair<unsigned short, unsigned>> buf(ChanceStackSize);
 	vector<pair<unsigned short, unsigned>>::iterator vit=buf.begin();
 	copy(lChance.begin(), lChance.end(), buf.begin());
-	/*for (lit=lChance.begin(); lit!=lChance.end(); lit++)
-	{
-		vit->first=lit->first;
-		vit->second=lit->second;
-		vit++;
-	}*/
 	random_shuffle(buf.begin(), buf.end());
 	copy(buf.begin(), buf.end(), lChance.begin());
-	/*for (lit=lChance.begin(); lit!=lChance.end(); lit++)
-	{
-		lit->first=vit->first;
-		lit->second=vit->second;
-		vit++;
-	}*/
 	chance.open("chance.dat", ios::out | ios::app);
 	for (lit=lChance.begin(); lit!=lChance.end(); lit++)
 	{

@@ -21,24 +21,28 @@ bool checking_chance_dat(list<pair<unsigned short, unsigned>> lChance, unsigned 
 	fstream chance;
 	chance.open("chance.dat");
 	list<pair<unsigned short, unsigned>> buf;
-	list<pair<unsigned short, unsigned>>::iterator bit,lit;
+	list<pair<unsigned short, unsigned>>::iterator bit, lit;
 	bool* same=new bool[css];
 	unsigned short i=0;
+	unsigned short j=0;
 	do
 	{
-		for (bit=buf.begin(); bit!=buf.end(); bit++)
+		for (j=0; j<(css*2); j++)
 		{
 			unsigned short type, value;
 			chance >> type;
 			chance >> value;
 			buf.push_back(make_pair(type, value));
 		}
+		cout << "complete buf" << endl;
+		bit=buf.begin();
 		for (lit=lChance.begin(); lit!=lChance.end(); lit++)
 		{
 			if ((lit->first == bit->first) && (lit->second == bit->second))
 				same[i] = true;
 			else same[i] = false;
 			i++;
+			bit++;
 		}
 	} while (!chance.eof());
 	chance.close();
@@ -61,8 +65,7 @@ list<pair<unsigned short, unsigned>> reform_chances (list<pair<unsigned short, u
 		copy(lChance.begin(), lChance.end(), buf.begin());
 		random_shuffle(buf.begin(), buf.end());
 		copy(buf.begin(), buf.end(), lChance.begin());
-
-		chance.open("chance.dat");
+		cout << "shufling complete. Check" << endl;
 	
 		if(!checking_chance_dat(lChance, css))
 		{
@@ -110,6 +113,8 @@ int main()
 
 	list<pair<unsigned short, unsigned>>::iterator lit;
 	fstream chance;
+	chance.open("chance.dat", ios::out);
+	chance.close();
 	chance.open("chance.dat");
 	for (lit=lChance.begin(); lit!=lChance.end(); lit++)
 	{
@@ -144,6 +149,7 @@ int main()
 				res.close();
 			}
 		}
+		cout << endl;
 		cout << "Max is " << max << endl;
 		cout << endl;
 		cout << "r1 completed" << endl;
@@ -253,6 +259,18 @@ int main()
 			chance << lit->first << endl << lit->second << endl;
 		}
  		lChance = reform_chances(lChance, ChanceStackSize);
+ 		
+ 		/*for (auto i=0; i<0; i++)
+ 			r1[i]=0;
+ 		for (auto d1=2; d1<14; d1+=2)
+	 		for (unsigned short d2 = 0; d2<9; d2++)
+	 			r2[d1][d2]=0;
+	 	for (unsigned short d3 = 3; d3<12; d3++)
+ 			for (unsigned short d2 = 2; d2 < 76; d2+=2)
+ 				r3[d3][d2]=0;*/
+ 		delete r1;
+ 		delete r2;
+ 		delete r3;
 	}
 	//system("pause"); // for windows-family OSs
 	getchar(); // выступает в роли аналога "system("pause");"
