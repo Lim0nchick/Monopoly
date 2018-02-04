@@ -54,15 +54,19 @@ int main()
 		if (max < r1[i])
 		{
 			max = r1[i];
+			res.open("result.txt", ios::out | ios::app);
+			res.close();
 			//D1 = i+3;
 			//Pos_and_Chance = Pos_and_Chance1((i+3), 0,0,n,field, lChance) // ТРЭК 
-			res.open("result.txt");
-			res << (i+3) << endl;
-			try1p((i+3), 0,0,(n-1),field, lChance, res);
+			//res.open("result.txt");
+			//res << (i+3) << endl;
+			try1p((i+3), 0,0,(n-1),field, lChance);
 			res.open("result.txt", ios::out | ios::app);
 			res << "The longest move is " << max << "." << endl;
+			res.close();
 		}
 	}
+	cout << "Max is " << max << endl;
 	cout << endl;
 	cout << "r1 completed" << endl;
 	cout << endl;
@@ -82,28 +86,30 @@ int main()
  			if (max < r2[d1][d2])
  			{
  				max=r2[d1][d2];
-				res.open("result.txt");
- 				unsigned short D1;
-				res >> D1;
-				res.close();
+ 				res.open("result.txt", ios::out);
+ 				res.close();
 				res.open("result.txt", ios::out);
-				res << D1 << endl << (d2+3) << endl;
+				res << d1 << endl << (d2+3) << endl;
 				res.close();
-				res.open("result.txt", ios::out | ios::app);
-				try1p(D1, 0,0,(n-1),field, lChance, res);
-				res.open("result.txt", ios::out | ios::app);
-				try2p(D1, (d2+3),(n-1), 0, field, 0, lChance, res);
+				//res.open("result.txt", ios::out | ios::app);
+				try1p(d1, 0,0,(n-1),field, lChance);
+				res.close();
+				//res.open("result.txt", ios::out | ios::app);
+				try2p(d1, (d2+3),(n-1), 0, field, 0, lChance);
+				res.close();
 				res.open("result.txt", ios::out | ios::app);
 				res << "The longest move is " << max << "." << endl;
+				res.close();
  			}
  			cout << r2[d1][d2] << "\t"; 
  		}
  		cout << endl;
  		cout << endl;
   	}
+  	cout << "Max is " << max << endl;
  	cout << "r2 completed" << endl;
  	
- 	int D1,D2,D3;
+ 	
  	unsigned** r3;
  	r3 = new unsigned*[13];
 	unsigned d1 = 2;
@@ -138,23 +144,20 @@ int main()
 			if (max < r3[d3][d2])
 			{
  				max = r3[d3][d2];
- 				unsigned short D1,D2,D3;
-				res >> D1;
-				res >> D2;
-				D3=d3;
-				res.open("result.txt", ios::out);
+ 				res.open("result.txt", ios::out);
+ 				res.close();
+				res.open("result.txt", ios::out | ios::app);
+				try1p(d1, 0,0,(n-1),field, lChance);
+				res.close();
+				//res.open("result.txt", ios::out | ios::app);
+				try2p(d1, (d2+3),(n-1), 0, field, 0, lChance);
+				res.close();
+				//res.open("result.txt", ios::out | ios::app);
+				try3p(d1, (d2%12),d3, (n-1), 0, 0, field, lChance);
 				res.close();
 				res.open("result.txt", ios::out | ios::app);
-				res << D1 << endl;
-				res << D2 << endl;
-				res << d3 << endl;
-				try1p(D1, 0,0,(n-1),field, lChance, res);
-				res.open("result.txt", ios::out | ios::app);
-				try2p(D1, (d2+3),(n-1), 0, field, 0, lChance, res);
-				res.open("result.txt", ios::out | ios::app);
-				try3p(D1, (d2%12),d3, (n-1), 0, 0, field, lChance, res);
-				res.open("result.txt", ios::out | ios::app);
 				res << "The longest move is " << max << "." << endl;
+				res.close();
 			}
  			if (d2 == 12 || d2 == 24 || d2 == 36 || d2 == 48 || d2 == 60)
  				d1+=2;
@@ -165,10 +168,7 @@ int main()
  	}
  	cout << "r3 completed" << endl;
  	cout << "The longest move is " << max << "." << endl;
- 	cout << "D1 = " << D1 << endl;
- 	cout << "D2 = " << D2 << endl;
- 	cout << "D3 = " << D3 << endl;
- 	
+
 
 
  	//cout << "Print track in result.dat, please wait...";

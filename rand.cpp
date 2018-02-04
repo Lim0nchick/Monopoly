@@ -9,6 +9,8 @@
 #include <list>
 #include <iterator>
 #include <utility>
+#include <random>
+//#include <algorithm>
 using namespace std;
 
 
@@ -119,9 +121,20 @@ using namespace std;
 	a++;
 }*/
 
+template<class RandomIt, class RandomFunc>
+void random_shuffle(RandomIt first, RandomIt last, RandomFunc&& r)
+{
+    typename std::iterator_traits<RandomIt>::difference_type i, n;
+    n = last - first;
+    for (i = n-1; i > 0; --i) {
+        using std::swap;
+        swap(first[i], first[r(i+1)]);
+    }
+}
+
 int main()
 {
-	fstream res;
+	/*fstream res;
 	res.open("result.txt");
 	//res << "AAAAAAAAAAAAAA" << endl;
 unsigned short D1,D2;
@@ -129,7 +142,51 @@ unsigned short D1,D2;
 	res >> D2;
 	cout << D1 << endl;
 	cout << D2 << endl;
-	res.close();
+	res.close();*/
+
+	unsigned short points = 0;
+	unsigned short n;
+		fstream Map;
+	Map.open("Map.dat", ios::in);
+	if(!Map) return 1; // Если ошибка открытия файла, то завершаем программу
+	Map >> n;
+	unsigned short* field = new unsigned short[n];
+	unsigned short CurPos;
+	for (CurPos=0; CurPos<n; CurPos++)
+	{
+		Map >> field[CurPos];
+		cout << field[CurPos];
+	}
+	unsigned short ChanceStackSize;
+	vector<pair<unsigned short, unsigned>> lChance;
+	Map >> ChanceStackSize;
+	for (auto i = 0; i<ChanceStackSize; i++)	
+	{
+		unsigned short type, value;
+		Map >> type;
+		Map >> value;
+		lChance.push_back(make_pair(type, value));
+	}
+	cout << "\n\n";
+	Map.close();
+
+	random_device rd;
+    mt19937 g(rd());
+	list<pair<unsigned short, unsigned>>::iterator lit;
+	fstream chance;
+	chance.open("chance.dat");
+	for (lit=lChance.begin(); lit!=lChance.end(); lit++)
+	{
+		chance << lit->first << endl << lit->second << endl;
+	}
+	chance.close();
+
+	random_shuffle(lChance.begin(), lChance.end(), g);
+	chance.open("chance.dat", ios::out | ios::app);
+	for (lit=lChance.begin(); lit!=lChance.end(); lit++)
+	{
+		chance << lit->first << endl << lit->second << endl;
+	}
 
 	/*int a;
 	cin >> a;

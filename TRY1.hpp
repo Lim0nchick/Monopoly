@@ -97,8 +97,14 @@ unsigned int try1(unsigned short d, unsigned int points,
 	
 void try1p(unsigned short d, unsigned int points,
 	unsigned short CurPos, unsigned n,
-	unsigned short* field, list<pair<unsigned short, unsigned>> lChance, fstream& res)	
+	unsigned short* field, list<pair<unsigned short, unsigned>> lChance)	
 {
+	fstream res;
+	res.open("result.txt", ios::out);
+	res.close();
+	res.open("result.txt", ios::out | ios::app);
+	res << d << endl;
+	
 	list<pair<unsigned short, unsigned>>::iterator it=lChance.begin();
 	vector<pair<unsigned, int>> Pos_and_Chance;
 	Pos_and_Chance.push_back(make_pair(0,distance(lChance.begin(), it)));
@@ -164,7 +170,7 @@ void try1p(unsigned short d, unsigned int points,
 			case 0:
 			{
 				points += d;
-				res << "finish: " << points << "steps";
+				res << "finish: " << points << "steps" << endl;
 				res.close();
 				return;	
 			} break;	
@@ -293,9 +299,11 @@ unsigned int try2(unsigned short d1, unsigned short d2, unsigned n,
 
 void try2p(unsigned short d1, unsigned short d2, unsigned n,
  unsigned int points, unsigned short* field, unsigned short CurPos,
- list<pair<unsigned short, unsigned>> lChance, fstream res)	
+ list<pair<unsigned short, unsigned>> lChance)	
 {
-	bool first;
+	fstream res;
+	res.open("result.txt", ios::out | ios::app);
+	bool first=true;
 	bool second;
 	bool secondAfterChance;
 	list<pair<unsigned short, unsigned>>::iterator it=lChance.begin();
@@ -325,12 +333,12 @@ void try2p(unsigned short d1, unsigned short d2, unsigned n,
 			CurPos += (d1%n);
 		} else CurPos += d1;
 	}
-	res << "Go to " << CurPos <<", it's " << field[CurPos] << endl;
+	//res << "Go to " << CurPos <<", it's " << field[CurPos] << endl;
 	
 	if (CurPos==(n+1)) CurPos = 0;
 	do
 	{
-		if (CurPos==n) CurPos = 0;
+		if (CurPos==(n+1)) CurPos = 0;
 		switch (field[CurPos])
 		{
 			case 0:
@@ -338,7 +346,7 @@ void try2p(unsigned short d1, unsigned short d2, unsigned n,
 				if (secondAfterChance)
 				{
 					points += d2;
-					res << "finish: " << points << "steps";
+					res << "finish: " << points << "steps" << endl;
 					res.close();
 					return;
 				}
@@ -563,8 +571,10 @@ unsigned int try3(unsigned short d1, unsigned short d2,
 void try3p(unsigned short d1, unsigned short d2,
  unsigned short d3,  unsigned n,
  unsigned int points, unsigned short CurPos,
- unsigned short* field, list<pair<unsigned short, unsigned>> lChance, fstream res)	
+ unsigned short* field, list<pair<unsigned short, unsigned>> lChance)	
 {
+	fstream res;
+	res.open("result.txt", ios::out | ios::app);
 	bool first = true;
 	bool second = false;
 	bool third = false;
@@ -665,7 +675,7 @@ void try3p(unsigned short d1, unsigned short d2,
 						{
 							CurPos += ((it->second)%(n-CurPos));
 						} else CurPos += (it->second);
-						cout << "forward on " << it->second << " fields to " << CurPos << endl;
+						res << "forward on " << it->second << " fields to " << CurPos << endl;
 					} break;
 
 					case 2:
@@ -678,7 +688,7 @@ void try3p(unsigned short d1, unsigned short d2,
 							points = 0;
 						else
 							points-=(it->second);
-						cout << "back on " << it->second << " fields to " << CurPos << endl;
+						res << "back on " << it->second << " fields to " << CurPos << endl;
 
 					} break;
 					
@@ -689,7 +699,7 @@ void try3p(unsigned short d1, unsigned short d2,
 							points+=(n-((it->second)-CurPos));
 						else 
 							points+=((it->second)-CurPos);
-						cout << "forward to " << CurPos << endl;
+						res << "forward to " << CurPos << endl;
 
 					} break;
 				}
