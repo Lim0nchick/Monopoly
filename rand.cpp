@@ -9,8 +9,8 @@
 #include <list>
 #include <iterator>
 #include <utility>
-#include <random>
-//#include <algorithm>
+//#include <random>
+#include <algorithm>
 using namespace std;
 
 
@@ -121,16 +121,6 @@ using namespace std;
 	a++;
 }*/
 
-template<class RandomIt, class RandomFunc>
-void random_shuffle(RandomIt first, RandomIt last, RandomFunc&& r)
-{
-    typename std::iterator_traits<RandomIt>::difference_type i, n;
-    n = last - first;
-    for (i = n-1; i > 0; --i) {
-        using std::swap;
-        swap(first[i], first[r(i+1)]);
-    }
-}
 
 int main()
 {
@@ -143,7 +133,6 @@ unsigned short D1,D2;
 	cout << D1 << endl;
 	cout << D2 << endl;
 	res.close();*/
-
 	unsigned short points = 0;
 	unsigned short n;
 		fstream Map;
@@ -158,7 +147,7 @@ unsigned short D1,D2;
 		cout << field[CurPos];
 	}
 	unsigned short ChanceStackSize;
-	vector<pair<unsigned short, unsigned>> lChance;
+	list<pair<unsigned short, unsigned>> lChance;
 	Map >> ChanceStackSize;
 	for (auto i = 0; i<ChanceStackSize; i++)	
 	{
@@ -170,8 +159,7 @@ unsigned short D1,D2;
 	cout << "\n\n";
 	Map.close();
 
-	random_device rd;
-    mt19937 g(rd());
+cout << endl << endl << ChanceStackSize << endl;
 	list<pair<unsigned short, unsigned>>::iterator lit;
 	fstream chance;
 	chance.open("chance.dat");
@@ -179,14 +167,31 @@ unsigned short D1,D2;
 	{
 		chance << lit->first << endl << lit->second << endl;
 	}
+	chance << endl << endl;
 	chance.close();
-
-	random_shuffle(lChance.begin(), lChance.end(), g);
+	vector<pair<unsigned short, unsigned>> buf(ChanceStackSize);
+	vector<pair<unsigned short, unsigned>>::iterator vit=buf.begin();
+	copy(lChance.begin(), lChance.end(), buf.begin());
+	/*for (lit=lChance.begin(); lit!=lChance.end(); lit++)
+	{
+		vit->first=lit->first;
+		vit->second=lit->second;
+		vit++;
+	}*/
+	random_shuffle(buf.begin(), buf.end());
+	copy(buf.begin(), buf.end(), lChance.begin());
+	/*for (lit=lChance.begin(); lit!=lChance.end(); lit++)
+	{
+		lit->first=vit->first;
+		lit->second=vit->second;
+		vit++;
+	}*/
 	chance.open("chance.dat", ios::out | ios::app);
 	for (lit=lChance.begin(); lit!=lChance.end(); lit++)
 	{
 		chance << lit->first << endl << lit->second << endl;
 	}
+	chance.close();
 
 	/*int a;
 	cin >> a;
