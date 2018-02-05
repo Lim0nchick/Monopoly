@@ -1,0 +1,12 @@
+2
+2 is First dice.
+Go to 2, it's 1
+Chance: forward to 12
+finish: 2steps
+Chance: forward to 12
+Go to 25, it's 0
+Go to 2, it's 1
+forward to 12
+forward to 30
+forward to 0
+The longest move is 332.
