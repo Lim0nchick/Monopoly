@@ -112,8 +112,10 @@ void try1p(unsigned short d, unsigned int points,
 	{
 		CurPos -= (d%n);
 	} else CurPos += d;
+	points += d;
 	res << d << " is First dice." << endl;
-	res << "Go to " << CurPos <<", it's " << field[CurPos] << endl; 
+	res << "Go to " << CurPos <<", it's " << field[CurPos] << endl;
+	res << "points += " << d << " = " << points << endl; 
 	if (CurPos==(n+1)) CurPos = 0;
 	do
 	{
@@ -133,6 +135,7 @@ void try1p(unsigned short d, unsigned int points,
 							CurPos += ((it->second)%(n-CurPos));
 						} else CurPos += (it->second);
 						res << "Chance: forward on " << it->second << " fields to " << CurPos << endl;
+						res << "points += " << it->second << " = " << points << endl; 
 					} break;
 
 					case 2:
@@ -147,6 +150,7 @@ void try1p(unsigned short d, unsigned int points,
 						else
 							points-=(it->second);
 						res << "Chance: back on " << it->second << " fields to " << CurPos << endl;
+						res << "points -= " << it->second << " = " << points << endl; 
 					} break;
 					
 					case 3:
@@ -157,6 +161,7 @@ void try1p(unsigned short d, unsigned int points,
 						else 
 							points+=((it->second)-CurPos);
 						res << "Chance: forward to " << CurPos << endl;
+						res << "points += " << (n-it->second) << " = " << points << endl; 
 					} break;
 				}
 				Pos_and_Chance.push_back(make_pair(CurPos,distance(lChance.begin(), it)));
@@ -169,8 +174,6 @@ void try1p(unsigned short d, unsigned int points,
 			} break;
 			case 0:
 			{
-				points += d;
-				res << "finish: " << points << "steps" << endl;
 				res.close();
 				return;	
 			} break;	
@@ -332,6 +335,7 @@ void try2p(unsigned short d1, unsigned short d2, unsigned n,
 		{
 			CurPos += (d1%n);
 		} else CurPos += d1;
+		res << "points += " << d1 << " = " << points << endl; 
 	}
 	//res << "Go to " << CurPos <<", it's " << field[CurPos] << endl;
 	
@@ -346,7 +350,7 @@ void try2p(unsigned short d1, unsigned short d2, unsigned n,
 				if (secondAfterChance)
 				{
 					points += d2;
-					res << "finish: " << points << "steps" << endl;
+					res << "points += " << d2 << " = " << points << endl; 
 					res.close();
 					return;
 				}
@@ -366,6 +370,7 @@ void try2p(unsigned short d1, unsigned short d2, unsigned n,
 					if (field[CurPos] == 0)
 					{
 						points += d2;
+						res << "points += " << d2 << " = " << points << endl;
 						res.close();
 						return;
 					}
@@ -373,6 +378,7 @@ void try2p(unsigned short d1, unsigned short d2, unsigned n,
 				if (first)
 				{
 					points += d1;
+					res << "points += " << d1 << " = " << points << endl;
 					second = true;
 					first = false;
 				}
@@ -391,6 +397,7 @@ void try2p(unsigned short d1, unsigned short d2, unsigned n,
 							CurPos += ((it->second)%(n-CurPos));
 						} else CurPos += (it->second);
 						res << "Chance: forward on " << it->second << " fields to " << CurPos << endl;
+						res << "points += " << it->second << " = " << points << endl;
 					} break;
 					case 2:
 					{
@@ -403,6 +410,7 @@ void try2p(unsigned short d1, unsigned short d2, unsigned n,
 						else
 							points-=(it->second);
 						res << "Chance: back on " << it->second << " fields to " << CurPos << endl;
+						res << "points -= " << it->second << " = " << points << endl;
 					} break;
 					
 					case 3:
@@ -413,6 +421,7 @@ void try2p(unsigned short d1, unsigned short d2, unsigned n,
 						else 
 							points+=((it->second)-CurPos);
 						res << "Chance: forward to " << CurPos << endl;
+						res << "points += " << (n-it->second) << " = " << points << endl;
 					} break;
 				}
 				Pos_and_Chance.push_back(make_pair(CurPos,distance(lChance.begin(), it)));
@@ -604,6 +613,8 @@ void try3p(unsigned short d1, unsigned short d2,
 		{
 			CurPos += (d1%n);
 		} else CurPos += d1;
+		points += d1;
+		res << "points += " << d1 << " = " << points << endl;
 	}
 	//cout << "CurPos = " << CurPos << endl;
 	if (CurPos==(n+1)) CurPos = 0;
@@ -622,9 +633,10 @@ void try3p(unsigned short d1, unsigned short d2,
 				if (thirdAfterChance)
 				{
 					points += d3;
+					res << "points += " << d3 << " = " << points << endl;
 					res.close();
 					return;
-				}
+			}
 				if (third)
 				{
 					if ((CurPos+d3)>n)
@@ -639,6 +651,7 @@ void try3p(unsigned short d1, unsigned short d2,
 					if (field[CurPos] == 0)
 					{
 						points += d3;
+						res << "points += " << d3 << " = " << points << endl;
 						res.close();
 						return;
 					}
@@ -646,6 +659,7 @@ void try3p(unsigned short d1, unsigned short d2,
 				if (second)
 				{
 					points += d2;
+					res << "points += " << d2 << " = " << points << endl;
 					second = false;
 					third = true;
 					if ((CurPos+d2)>n)
@@ -655,7 +669,6 @@ void try3p(unsigned short d1, unsigned short d2,
 				}
 				if (first)
 				{
-					points += d1;
 					second = true;
 					first = false;
 				}
@@ -676,6 +689,7 @@ void try3p(unsigned short d1, unsigned short d2,
 							CurPos += ((it->second)%(n-CurPos));
 						} else CurPos += (it->second);
 						res << "forward on " << it->second << " fields to " << CurPos << endl;
+						res << "points += " << it->second << " = " << points << endl;
 					} break;
 
 					case 2:
@@ -689,7 +703,7 @@ void try3p(unsigned short d1, unsigned short d2,
 						else
 							points-=(it->second);
 						res << "back on " << it->second << " fields to " << CurPos << endl;
-
+						res << "points -= " << it->second << " = " << points << endl;
 					} break;
 					
 					case 3:
@@ -700,7 +714,7 @@ void try3p(unsigned short d1, unsigned short d2,
 						else 
 							points+=((it->second)-CurPos);
 						res << "forward to " << CurPos << endl;
-
+						res << "points += " << (n-it->second) << " = " << points << endl;
 					} break;
 				}
 				Pos_and_Chance.push_back(make_pair(CurPos,distance(lChance.begin(), it)));
