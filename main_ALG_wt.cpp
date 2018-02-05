@@ -141,7 +141,7 @@ int main()
 		for (auto i=0; i<9; i++)
 		{
 			r1[i] = try1((i+3), 0,0,(n-1),field, lChance);
-			//cout << r1[i] << "\t";
+			cout << r1[i] << "\t";
 			if (max < r1[i])
 			{
 				max = r1[i];
@@ -157,11 +157,11 @@ int main()
 				res.close();
 			}
 		}
-		//cout << endl;
-		//cout << "Max is " << max << endl;
-		//cout << endl;
-		//cout << "r1 completed" << endl;
-		//cout << endl;
+		cout << endl;
+		cout << "Max is " << max << endl;
+		cout << endl;
+		cout << "r1 completed" << endl;
+		cout << endl;
 	 	unsigned** r2;
 	 	r2 = new unsigned*[14];
 
@@ -180,9 +180,9 @@ int main()
 	 				max=r2[d1][d2];
 	 				res.open("result.txt", ios::out);
 	 				res.close();
-					res.open("result.txt", ios::out);
-					res << d1 << endl << (d2+3) << endl;
-					res.close();
+					//res.open("result.txt", ios::out);
+					//res << d1 << endl << (d2+3) << endl;
+					//res.close();
 					//res.open("result.txt", ios::out | ios::app);
 					try1p(d1, 0,0,(n-1),field, lChance);
 					res.close();
@@ -193,14 +193,14 @@ int main()
 					res << "The longest move is " << max << "." << endl;
 					res.close();
 	 			}
-	 			//cout << r2[d1][d2] << "\t"; 
+	 			cout << r2[d1][d2] << "\t"; 
 	 		}
-	 		//cout << endl;
-	 		//cout << endl;
+	 		cout << endl;
+	 		cout << endl;
 	  	}
-	  	//cout << "Max is " << max << endl;
-	 	//cout << "r2 completed" << endl;
-	 	
+	  	cout << "Max is " << max << endl;
+	 	cout << "r2 completed" << endl;
+	 	cout << endl << endl;
 	 	
 	 	unsigned** r3;
 	 	r3 = new unsigned*[13];
@@ -221,7 +221,7 @@ int main()
  					//cout << "CurPos = " << CurPos << endl;
  					if (CurPos == 20) CurPos = 0;
 					r3[d3][d2] = try3(d1, (d2%12),d3, (n-1), (r2[d1][d2%12]), CurPos, field, lChance);
-					//cout << r3[d3][d2] <<"\t";
+					cout << r3[d3][d2] <<"\t";
 	
  				}
 				else
@@ -231,7 +231,7 @@ int main()
  					if (CurPos == 20) CurPos = 0;
 					r3[d3][d2] = try3(d1, (d2%12),d3, (n-1), 0, 0, field, lChance);
 				//	cout << "r3[" << d3 << "][" << d2 << "]" << endl;
-					//cout << r3[d3][d2] <<"\t";
+					cout << r3[d3][d2] <<"\t";
 				}
 				if (max < r3[d3][d2])
 				{
@@ -242,7 +242,7 @@ int main()
 					try1p(d1, 0,0,(n-1),field, lChance);
 					res.close();
 					//res.open("result.txt", ios::out | ios::app);
-					try2p(d1, (d2+3),(n-1), 0, field, 0, lChance);
+					try2p(d1, d2,(n-1), 0, field, 0, lChance);
 					res.close();
 					//res.open("result.txt", ios::out | ios::app);
 					try3p(d1, (d2%12),d3, (n-1), 0, 0, field, lChance);
@@ -255,11 +255,11 @@ int main()
  					d1+=2;
  			}
  			d1=2;
- 			//cout << endl;
- 			//cout << endl;
+ 			cout << endl;
+ 			cout << endl;
  		}
- 		//cout << "r3 completed" << endl;
- 		//cout << "The longest move is " << max << "." << endl;
+ 		cout << "r3 completed" << endl;
+ 		cout << "The longest move is " << max << "." << endl;
  		fstream chance;
 		chance.open("chance.dat");
  		for (lit=lChance.begin(); lit!=lChance.end(); lit++)
@@ -279,6 +279,7 @@ int main()
  		delete r1;
  		delete r2;
  		delete r3;
+ 		getchar();
 	}
 	//system("pause"); // for windows-family OSs
 	getchar(); // выступает в роли аналога "system("pause");"

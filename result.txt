@@ -1,12 +1,27 @@
-2
 2 is First dice.
 Go to 2, it's 1
-Chance: forward to 12
-finish: 2steps
-Chance: forward to 12
+points += 2 = 2
+Chance: forward to 15
+points += 13 = 15
+It's field is 0
+
+10 is Second dice.
+Chance: forward to 15
+points += 13 = 13
+It's field is 0
+points += 2 = 15
 Go to 25, it's 0
+points += 10 = 25
+
+7 is Third dice.
+points += 2 = 2
 Go to 2, it's 1
-forward to 12
-forward to 30
-forward to 0
-The longest move is 332.
+Chance: forward to 15
+points += 13 = 15
+It's field is 0
+points += 10 = 25
+Chance: forward to 24
+points += 47 = 72
+It's field is 0
+points += 7 = 79
+The longest move is 576.
