@@ -5,12 +5,12 @@
 #include <fstream>
 using namespace std;
 
-void Cycle_Check(vector<pair<unsigned, int>> v)
+void Cycle_Check(vector<pair<unsigned, int> > v)
 {
-	vector<pair<unsigned, int>>::iterator it;
+	vector<pair<unsigned, int> >::iterator it;
 	for (it=v.begin(); it!=v.end(); it++)
 	{
-		vector<pair<unsigned, int>>::iterator jt;
+		vector<pair<unsigned, int> >::iterator jt;
 		for (jt=it; jt!=v.end(); jt++)
 		{
 			if (distance(v.begin(),jt) != distance(v.begin(),it))
@@ -27,33 +27,37 @@ void Cycle_Check(vector<pair<unsigned, int>> v)
 
 unsigned int try1(unsigned short d, unsigned int points,
 	unsigned short CurPos, unsigned n,
-	unsigned short* field, list<pair<unsigned short, unsigned>> lChance, bool print)	
+	unsigned short* field, list<pair<unsigned short, unsigned > > lChance, bool print)	
 {
 	fstream res;
 	if (print)
 	{
-		res.open("result.txt", ios::out);
-		res.close();
+		//res.open("result.txt", ios::out);
+		//res.close();
 		res.open("result.txt", ios::out | ios::app);
 		res << d << " is First dice." << endl;
 	}
-	list<pair<unsigned short, unsigned>>::iterator it=lChance.begin();
-	vector<pair<unsigned, int>> Pos_and_Chance;
+	list<pair<unsigned short, unsigned> >::iterator it=lChance.begin();
+	vector<pair<unsigned, int> > Pos_and_Chance;
 	Pos_and_Chance.push_back(make_pair(0,distance(lChance.begin(), it)));
+
+	if (print)
+		res << "From " << CurPos;
+
 	if (d>n)
-	{
 		CurPos -= (d%n);
-	} else CurPos += d;
+	else CurPos += d;
 	points += d;
 	if(print)
 	{
-		res << "Go to " << CurPos <<", it's " << field[CurPos] << endl;
-		res << "points += " << d << " = " << points << endl; 
+		res << " Go to " << CurPos <<", it's " << field[CurPos] << endl;
+		res << "points += " << d << " = " << points << " (by First dice)" << endl; 
 	}
 
 	if (CurPos==(n+1)) CurPos = 0;
 	do
 	{
+		res << "CurPos = " << CurPos << "\tpoints = " << points << endl;
 		if (CurPos==(n+1)) CurPos = 0;
 		switch (field[CurPos])
 		{
@@ -127,11 +131,7 @@ unsigned int try1(unsigned short d, unsigned int points,
 			case 0:
 			{
 				if (print)
-				{
-					res << endl;
-					res << points << " points" << endl;
 					res.close();
-				}
 				fstream iter;
 				iter.open("iter.dat");
 				iter << distance(lChance.begin(), it);
@@ -145,7 +145,7 @@ unsigned int try1(unsigned short d, unsigned int points,
 
 unsigned int try2(unsigned short d1, unsigned short d2, unsigned n,
  unsigned int points, unsigned short* field, unsigned short CurPos,
- list<pair<unsigned short, unsigned>> lChance, bool print)	
+ list<pair<unsigned short, unsigned> > lChance, bool print)	
 {
 	fstream res;
 	if (print)
@@ -156,8 +156,8 @@ unsigned int try2(unsigned short d1, unsigned short d2, unsigned n,
 	bool first;
 	bool second;
 	bool secondAfterChance;
-	list<pair<unsigned short, unsigned>>::iterator it=lChance.begin();
-	vector<pair<unsigned, int>> Pos_and_Chance;
+	list<pair<unsigned short, unsigned> >::iterator it=lChance.begin();
+	vector<pair<unsigned, int> > Pos_and_Chance;
 	Pos_and_Chance.push_back(make_pair(0,distance(lChance.begin(), it)));
 	fstream iter;
 	if (points!=0)
@@ -186,16 +186,29 @@ unsigned int try2(unsigned short d1, unsigned short d2, unsigned n,
 	{
 		if (d1>n)
 		{
+			if (print)
+				res << "From " << CurPos;
 			CurPos += (d1%n);
-		} else CurPos += d1;
+		} else
+		{
+			if (print)
+				res << "From " << CurPos;
+			CurPos += d1;
+		}
 		points += d1;
 		if (print)
+		{
+			res << " Go to " << CurPos <<", it's " << field[CurPos] << endl;
 			res << "points += " << d1 << " = " << points << " (by First dice)" << endl;
+		}
 	}
+
+	
 
 	if (CurPos==(n+1)) CurPos = 0;
 	do
 	{
+		res << "CurPos = " << CurPos << "\tpoints = " << points << endl;
 		if (CurPos==n) CurPos = 0;
 		switch (field[CurPos])
 		{
@@ -207,38 +220,43 @@ unsigned int try2(unsigned short d1, unsigned short d2, unsigned n,
 					if (print)
 					{
 						res << "points += " << d2 << " = " << points << " (by Second dice)" << endl;
-						res << points << " points" << endl; 
-						res.close();
+						res << "From " << CurPos;
+						if ((CurPos+d2)>n)
+							CurPos -= (n-d2);
+						else
+							CurPos += d2;
+						res << " Go to " << CurPos <<", it's " << field[CurPos] << endl;
 					}
+
+					if (print)
+						res.close();
 					return points;
 				}
 				if (second)
 				{
+					res << "From " << CurPos;
 					if ((CurPos+d2)>n)
-					{
 						CurPos -= (n-d2);
-					} else
+					else
 					{
 						CurPos += d2;
 						second = false;
 						secondAfterChance = true;
 					}
+					points += d2;
+					if (print)
+						res << "points += " << d2 << " = " << points << " (by Second dice)" << endl;
 					if(print)
 					{
-						res << "Go to " << CurPos <<", it's " << field[CurPos] << endl;
+						res << " Go to " << CurPos <<", it's " << field[CurPos] << endl;
 					}
 					if (field[CurPos] == 0)
 					{
-						points += d2;
 						iter.open("iter.dat");
 						iter << distance(lChance.begin(), it);
 						iter.close();
 						if (print)
-						{
-							res << "points += " << d2 << " = " << points << endl << endl;
-							res << points << " points" << endl; 
 							res.close();
-						}
 						return points;
 					}
 				}
@@ -326,7 +344,7 @@ unsigned int try2(unsigned short d1, unsigned short d2, unsigned n,
 unsigned int try3(unsigned short d1, unsigned short d2,
  unsigned short d3,  unsigned n,
  unsigned int points, unsigned short CurPos,
- unsigned short* field, list<pair<unsigned short, unsigned>> lChance, bool print, unsigned* r1)	
+ unsigned short* field, list<pair<unsigned short, unsigned> > lChance, bool print, unsigned* r1)	
 {
 	fstream res;
 	if (print)
@@ -338,8 +356,8 @@ unsigned int try3(unsigned short d1, unsigned short d2,
 	bool second = false;
 	bool third = false;
 	bool thirdAfterChance = false;
-	list<pair<unsigned short, unsigned>>::iterator it=lChance.begin();
-	vector<pair<unsigned, int>> Pos_and_Chance;
+	list<pair<unsigned short, unsigned> >::iterator it=lChance.begin();
+	vector<pair<unsigned, int> > Pos_and_Chance;
 	Pos_and_Chance.push_back(make_pair(0,distance(lChance.begin(), it)));
 	fstream iter;
 	if (points!=0)
@@ -379,40 +397,41 @@ unsigned int try3(unsigned short d1, unsigned short d2,
 		if (print)
 			res << "points += " << d1 << " = " << points << "(by First dice)" << endl;
 	}
-	//cout << "CurPos = " << CurPos << endl;
-	//cout << "field[CurPos] = " << field[CurPos] << endl;
 	if (CurPos==(n+1)) CurPos = 0;
 	if (print)
 		res << "Go to " << CurPos <<", it's " << field[CurPos] << endl;
+
 	do
 	{
+		res << "CurPos = " << CurPos << "\tpoints = " << points << endl;
 		if (CurPos==(n+1)) CurPos = 0;
-	//	cout << "CurPos = " << CurPos << endl;
-		//cout << "field[CurPos] = " << field[CurPos] << endl;
 		switch (field[CurPos])
 		{
 			case 0:
 			{
-	//			cout << "Empty case begin" << endl;
 				if (thirdAfterChance)
 				{
-					points += d3;
 					iter.open("iter.dat");
 					iter << distance(lChance.begin(), it);
 					iter.close();
+					points += d3;
 					if (print)
 					{
-						res << "points += " << d3 << " = " << points << endl;
-						res << points << " points" << endl;
+						res << "points += " << d3 << " = " << points << " (by Third dice)" << endl;
+						res << "From " << CurPos;
+						if ((CurPos+d3)>n)
+							CurPos -= (n-d3);
+						else
+							CurPos += d3;
+						res << " Go to " << CurPos <<", it's " << field[CurPos] << endl;
 						res.close();
 					}
-					fstream max;
-					max.open("max.dat", ios::out | ios::app);
-					max << "Max = " << points << endl;
 					return points;
 				}
 				if (third)
 				{
+					if (print)
+						res << "From " << CurPos;
 					if ((CurPos+d3)>n)
 					{
 						CurPos -= (n-d3);
@@ -422,6 +441,8 @@ unsigned int try3(unsigned short d1, unsigned short d2,
 						third = false;
 						thirdAfterChance = true;
 					}
+					if(print)
+						res << " Go to " << CurPos << " it's " << field[CurPos] << endl;
 					if (field[CurPos] == 0)
 					{
 						points += d3;
@@ -434,9 +455,6 @@ unsigned int try3(unsigned short d1, unsigned short d2,
 						iter.open("iter.dat");
 						iter << distance(lChance.begin(), it);
 						iter.close();
-						fstream max;
-						max.open("max.dat", ios::out | ios::app);
-						max << "Max = " << points << endl;
 						return points;
 					}
 				}
@@ -460,12 +478,10 @@ unsigned int try3(unsigned short d1, unsigned short d2,
 					first = false;
 				}
 				Pos_and_Chance.push_back(make_pair(CurPos,distance(lChance.begin(), it)));
-	//			cout << "Empty case END" << endl;
 			} break;
 
 			case 1:
 			{
-	//			cout << "Chance case begin" << endl;
 				switch (it->first)
 				{
 					case 1:
@@ -523,7 +539,8 @@ unsigned int try3(unsigned short d1, unsigned short d2,
 							res << "It's field is " << field[CurPos] << endl;
 					} break;
 				}
-		//if (CurPos>=20) CurPos = 0;
+			}
+		}
 	} while (1);
 	return points;
 }

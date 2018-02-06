@@ -1,6 +1,6 @@
 #include <fstream>
 #include <iostream>
-#include "ThreadPool.h"
+//#include "ThreadPool.h"
 #include <future>
 #include <thread>
 #include <vector>
@@ -68,18 +68,13 @@ list<pair<unsigned short, unsigned>> reform_chances (list<pair<unsigned short, u
 		copy(lChance.begin(), lChance.end(), buf.begin());
 		random_shuffle(buf.begin(), buf.end());
 		copy(buf.begin(), buf.end(), lChance.begin());
-		//cout << "shuffling complete. Check" << endl;
 		bool check=checking_chance_dat(lChance, css);
-		//cout << "check = " << check << endl;
 		if(!checking_chance_dat(lChance, css))
 		{
 			chance.open("chance.dat", ios::out | ios::app);
 			for (lit=lChance.begin(); lit!=lChance.end(); lit++)
-			{
 				chance << lit->first << endl << lit->second << endl;
-			}
 			chance.close();
-			//cout << "complete shufling chances and write to file" << endl;
 			return lChance;
 		}
 	} while (1);
@@ -87,7 +82,8 @@ list<pair<unsigned short, unsigned>> reform_chances (list<pair<unsigned short, u
 }
 
 int main()
-{unsigned short points = 0;
+{
+	unsigned short points = 0;
 	unsigned short n;
 		
 	fstream Map;
@@ -256,13 +252,15 @@ int main()
 			chance << lit->first << endl << lit->second << endl;
 		}
  		lChance = reform_chances(lChance, ChanceStackSize);
- 		
+ 		chance.close();
  		delete r1;
  		delete r2;
  		delete r3;
  		getchar();
 	}
+	log.close();
 	//system("pause"); // for windows-family OSs
 	getchar(); // выступает в роли аналога "system("pause");"
+
 	return 0;
 }

@@ -1,27 +1,20 @@
-2 is First dice.
-Go to 2, it's 1
-points += 2 = 2
-Chance: forward to 0
-points += 41 = 43
-It's field is 0
-
-43points
-2 is Second dice.
-Chance: forward to 28
-points += 26 = 26
-It's field is 0
-points += 2 = 28
-Go to 30, it's 0
-points += 2 = 30
-
-30points
 7 is Third dice.
-points += 2 = 2
-Go to 2, it's 1
-Chance: forward to 10
-points += 8 = 10
+13 is Second dice.
+6 is First dice.
+From 0 Go to 6, it's 0
+points += 6 = 6 (by First dice)
+CurPos = 6	points = 6
+CurPos = 6	points = 6
+points += 13 = 19 (by Second dice)
+From 6 Go to 19, it's 0
+Go to 0, it's 0
+CurPos = 0	points = 129
+From 0 Go to 7 it's 1
+CurPos = 7	points = 129
+Chance: forward to 0
+points += 47 = 176
 It's field is 0
-points += 2 = 12
-points += 7 = 19
-19points
-The longest move is 142.
+CurPos = 0	points = 176
+points += 7 = 183 (by Third dice)
+From 0 Go to 7, it's 1
+The longest move is 183.
