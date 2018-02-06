@@ -87,8 +87,7 @@ list<pair<unsigned short, unsigned>> reform_chances (list<pair<unsigned short, u
 }
 
 int main()
-{
-	unsigned short points = 0;
+{unsigned short points = 0;
 	unsigned short n;
 		
 	fstream Map;
@@ -97,22 +96,26 @@ int main()
 	Map >> n;
 	unsigned short* field = new unsigned short[n];
 	unsigned short CurPos;
+	cout << "Map: ";
 	for (CurPos=0; CurPos<n; CurPos++)
 	{
 		Map >> field[CurPos];
-		//cout << field[CurPos];
+		cout << field[CurPos] << "  ";
 	}
+	cout << endl;
 	unsigned short ChanceStackSize;
 	list<pair<unsigned short, unsigned>> lChance;
 	Map >> ChanceStackSize;
+	cout << "Chance: ";
 	for (auto i = 0; i<ChanceStackSize; i++)	
 	{
 		unsigned short type, value;
 		Map >> type;
 		Map >> value;
 		lChance.push_back(make_pair(type, value));
+		//cout << type << "-" << value << "  ";
 	}
-	//cout << "\n\n";
+	cout << "\n\n";
 	Map.close();
 
 
@@ -133,6 +136,15 @@ int main()
 	//vector<pair<unsigned, list<pair<unsigned short, unsigned>>::iterator>> Pos_and_Chance;
 	for(auto i=0; i<N; i++)
 	{
+		fstream iter;
+		iter.open("iter.dat");
+		iter << "0" << endl;
+		iter.close(); 
+		for (CurPos=0; CurPos<n; CurPos++)
+			cout << field[CurPos] << "  ";
+		cout << endl;
+		for (lit=lChance.begin(); lit!=lChance.end(); lit++)
+			cout << lit->first << endl << lit->second << endl;
 		log << "i = " << i << endl;
 		//unsigned short D1=0, D2=0, D3=0;
 		fstream res;
@@ -140,31 +152,24 @@ int main()
 		r1=new unsigned[9];
 		for (auto i=0; i<9; i++)
 		{
-			r1[i] = try1((i+3), 0,0,(n-1),field, lChance);
+			r1[i] = try1((i+3), 0,0,(n-1),field, lChance, false);
 			cout << r1[i] << "\t";
 			if (max < r1[i])
 			{
 				max = r1[i];
 				res.open("result.txt", ios::out | ios::app);
 				res.close();
-				//D1 = i+3;
-				//Pos_and_Chance = Pos_and_Chance1((i+3), 0,0,n,field, lChance) // ТРЭК 
-				//res.open("result.txt");
-				//res << (i+3) << endl;
-				try1p((i+3), 0,0,(n-1),field, lChance);
+				unsigned a = try1((i+3), 0,0,(n-1),field, lChance, true);
 				res.open("result.txt", ios::out | ios::app);
-				//res << "The longest move is " << max << "." << endl;
+				res << "The longest move is " << max << "." << endl;
 				res.close();
 			}
 		}
 		cout << endl;
-		cout << "Max is " << max << endl;
-		cout << endl;
-		cout << "r1 completed" << endl;
-		cout << endl;
+		cout << "Max is " << max << endl << endl;; 
+		cout << "r1 completed" << endl << endl;;
 	 	unsigned** r2;
 	 	r2 = new unsigned*[14];
-
 
 	 	for (unsigned short d1=2; d1<14; d1+=2)
 	 	{
@@ -172,23 +177,18 @@ int main()
 	 		for (unsigned short d2 = 0; d2<9; d2++)
 	 		{
 	 			if ((d1 == 4) || (d1 == 6) || (d1 == 8) || (d1 == 10))
-					r2[d1][d2] = try2(d1, (d2+3),(n-1), (r1[d1-3]), field, ((r1[d1-3])%n), lChance);
+					r2[d1][d2] = try2(d1, (d2+3),(n-1), (r1[d1-3]), field, ((r1[d1-3])%n), lChance, false);
 				else 
-					r2[d1][d2] = try2(d1, (d2+3),(n-1), 0, field, 0, lChance);
+					r2[d1][d2] = try2(d1, (d2+3),(n-1), 0, field, 0, lChance, false);
 	 			if (max < r2[d1][d2])
 	 			{
 	 				max=r2[d1][d2];
 	 				res.open("result.txt", ios::out);
 	 				res.close();
-					//res.open("result.txt", ios::out);
-					//res << d1 << endl << (d2+3) << endl;
-					//res.close();
-					//res.open("result.txt", ios::out | ios::app);
-					try1p(d1, 0,0,(n-1),field, lChance);
-					res.close();
-					//res.open("result.txt", ios::out | ios::app);
-					try2p(d1, (d2+3),(n-1), 0, field, 0, lChance);
-					res.close();
+	 				if ((d1 == 4) || (d1 == 6) || (d1 == 8) || (d1 == 10))
+						unsigned a = try2(d1, (d2+3),(n-1), (r1[d1-3]), field, ((r1[d1-3])%n), lChance, true);
+					else
+						unsigned a = try2(d1, (d2+3),(n-1), 0, field, 0, lChance, true);
 					res.open("result.txt", ios::out | ios::app);
 					res << "The longest move is " << max << "." << endl;
 					res.close();
@@ -199,8 +199,7 @@ int main()
 	 		cout << endl;
 	  	}
 	  	cout << "Max is " << max << endl;
-	 	cout << "r2 completed" << endl;
-	 	cout << endl << endl;
+	 	cout << "r2 completed" << endl << endl << endl;
 	 	
 	 	unsigned** r3;
 	 	r3 = new unsigned*[13];
@@ -210,27 +209,16 @@ int main()
  			r3[d3]=new unsigned[76];
  			for (unsigned short d2 = 2; d2 < 76; d2+=2)
  			{
- 				//cout << "d1 = " << d1 << endl;
- 				//cout << "d2 = " << d2 << endl;
- 				//cout << "d3 = " << d3 << endl;
- 				//cout << "r2[d1][d2/12] = " << r2[d1][d2%12] << endl;
- 				if (d1=14) d1=2;
  				if ((d2%12) == 4 || (d2%12) == 6 || (d2%12) == 8 || (d2%12) == 10)
  				{
- 					//CurPos = (r2[d1][d2%12])%n;
- 					//cout << "CurPos = " << CurPos << endl;
- 					if (CurPos == 20) CurPos = 0;
-					r3[d3][d2] = try3(d1, (d2%12),d3, (n-1), (r2[d1][d2%12]), CurPos, field, lChance);
+ 					if (CurPos == n) CurPos = 0;
+					r3[d3][d2] = try3(d1, (d2%12),d3, (n-1), (r2[d1][d2%12]), CurPos, field, lChance, false, r1);
 					cout << r3[d3][d2] <<"\t";
-	
  				}
 				else
 				{
-					//CurPos = (r2[d1][d2%12])%n;
-					//cout << "CurPos = " << CurPos << endl;
- 					if (CurPos == 20) CurPos = 0;
-					r3[d3][d2] = try3(d1, (d2%12),d3, (n-1), 0, 0, field, lChance);
-				//	cout << "r3[" << d3 << "][" << d2 << "]" << endl;
+ 					if (CurPos == n) CurPos = 0;
+					r3[d3][d2] = try3(d1, (d2%12),d3, (n-1), 0, 0, field, lChance, false, r1);
 					cout << r3[d3][d2] <<"\t";
 				}
 				if (max < r3[d3][d2])
@@ -238,15 +226,16 @@ int main()
  					max = r3[d3][d2];
  					res.open("result.txt", ios::out);
  					res.close();
-					res.open("result.txt", ios::out | ios::app);
-					try1p(d1, 0,0,(n-1),field, lChance);
-					res.close();
-					//res.open("result.txt", ios::out | ios::app);
-					try2p(d1, d2,(n-1), 0, field, 0, lChance);
-					res.close();
-					//res.open("result.txt", ios::out | ios::app);
-					try3p(d1, (d2%12),d3, (n-1), 0, 0, field, lChance);
-					res.close();
+ 					if ((d2%12) == 4 || (d2%12) == 6 || (d2%12) == 8 || (d2%12) == 10)
+ 					{
+ 						if (CurPos == n) CurPos = 0;
+							unsigned a = try3(d1, (d2%12),d3, (n-1), (r2[d1][d2%12]), CurPos, field, lChance, true, r1);
+ 					}
+					else
+					{
+ 						if (CurPos == n) CurPos = 0;
+							unsigned a = try3(d1, (d2%12),d3, (n-1), 0, 0, field, lChance, true, r1);
+					}
 					res.open("result.txt", ios::out | ios::app);
 					res << "The longest move is " << max << "." << endl;
 					res.close();
@@ -268,14 +257,6 @@ int main()
 		}
  		lChance = reform_chances(lChance, ChanceStackSize);
  		
- 		/*for (auto i=0; i<0; i++)
- 			r1[i]=0;
- 		for (auto d1=2; d1<14; d1+=2)
-	 		for (unsigned short d2 = 0; d2<9; d2++)
-	 			r2[d1][d2]=0;
-	 	for (unsigned short d3 = 3; d3<12; d3++)
- 			for (unsigned short d2 = 2; d2 < 76; d2+=2)
- 				r3[d3][d2]=0;*/
  		delete r1;
  		delete r2;
  		delete r3;
@@ -284,4 +265,4 @@ int main()
 	//system("pause"); // for windows-family OSs
 	getchar(); // выступает в роли аналога "system("pause");"
 	return 0;
-}
+while();}

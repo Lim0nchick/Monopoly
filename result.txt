@@ -1,27 +1,27 @@
 2 is First dice.
 Go to 2, it's 1
 points += 2 = 2
-Chance: forward to 15
-points += 13 = 15
+Chance: forward to 0
+points += 41 = 43
 It's field is 0
 
-10 is Second dice.
-Chance: forward to 15
-points += 13 = 13
+43points
+2 is Second dice.
+Chance: forward to 28
+points += 26 = 26
 It's field is 0
-points += 2 = 15
-Go to 25, it's 0
-points += 10 = 25
+points += 2 = 28
+Go to 30, it's 0
+points += 2 = 30
 
+30points
 7 is Third dice.
 points += 2 = 2
 Go to 2, it's 1
-Chance: forward to 15
-points += 13 = 15
+Chance: forward to 10
+points += 8 = 10
 It's field is 0
-points += 10 = 25
-Chance: forward to 24
-points += 47 = 72
-It's field is 0
-points += 7 = 79
-The longest move is 576.
+points += 2 = 12
+points += 7 = 19
+19points
+The longest move is 142.
