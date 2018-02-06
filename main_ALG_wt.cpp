@@ -265,4 +265,4 @@ int main()
 	//system("pause"); // for windows-family OSs
 	getchar(); // выступает в роли аналога "system("pause");"
 	return 0;
-while();}
+}
