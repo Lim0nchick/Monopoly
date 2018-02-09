@@ -1,6 +1,35 @@
-From 0 Go to 1, it's 0
-points += 1 = 1(by First dice)
+From 0 Go to 7, it's 1
+points += 7 = 7(by First dice)
 
-CurPos = 1	points = 1
+CurPos = 7	points = 7
 
-The longest move is 1.
+Chance: forward to 39
+points += 32 = 39
+It's field is 0
+
+CurPos = 39	points = 39
+
+CurPos = 39	points = 39
+
+points += 3 = 42 (by Second dice)
+From 39 Go to: 2 it's 1 (by Second dice)
+
+CurPos = 2	points = 42
+
+Chance: forward to 0
+points += 38 = 80
+It's field is 0
+
+CurPos = 0	points = 80
+
+From 0 Go to 7 it's 1
+points += 7 = 87 (by Third dice)
+CurPos = 7	points = 87
+
+Chance: forward to 5
+points += 38 = 125
+It's field is 0
+
+CurPos = 5	points = 125
+
+The longest move is 125.

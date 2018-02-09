@@ -100,8 +100,7 @@ unsigned try1(unsigned short d1, unsigned short d2,
 					if (print)
 						res << "points += " << d2 << " = " << points << " (by Second dice)" << endl << "From " << CurPos;
 					second = false;
-					if (d2%2==0)
-						third = true;
+					third = true;
 					if ((CurPos+d2)>n)
 						CurPos -= (n-d2);
 					else
@@ -111,21 +110,8 @@ unsigned try1(unsigned short d1, unsigned short d2,
 				}
 				if (first)
 				{
-					if ((d1%2)==0)
-						second = true;
+					second = true;
 					first = false;
-				}
-				if ((field[CurPos]==0) && ((d1%2)!=0) && (first == false))
-				{
-					if ((field[CurPos]==0) && ((d2%2)!=0) && (second == false) && (first == false))
-					{
-						if ((field[CurPos]==0) && ((d3%2)!=0) && (third == false) && (second == false) && (first == false))
-						{
-							if (print)
-								res.close();
-							return points;
-						}
-					}
 				}
 			Pos_and_Chance.push_back(make_pair(CurPos,distance(lChance.begin(), it)));
 			} break;
@@ -184,8 +170,6 @@ unsigned try1(unsigned short d1, unsigned short d2,
 					it=lChance.begin();
 					Cycle_Check(Pos_and_Chance);
 				}
-				
-				//if ((field[CurPos]==0) && ((d2%2)!=0) && (second == false) && (first == false))
 			} break;
 		}
 	} while(1);
