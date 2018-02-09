@@ -124,6 +124,23 @@ using namespace std;
 
 int main()
 {
+	unsigned*** r;
+	r = new unsigned**[5];
+	for (auto d1=0; d1<5; d1++)
+	{
+		r[d1]=new unsigned*[5];
+		for(auto d2=0; d2<5; d2++)
+		{
+			r[d1][d2]=new unsigned[5];
+			for(auto d3=0; d3<5; d3++)
+			{
+				r[d1][d2][d3] = d3;
+				cout << r[d1][d2][d3] << " ";
+			}
+			cout << endl;
+		}
+		cout << endl << endl;
+	}
 	/*fstream res;
 	res.open("result.txt");
 	//res << "AAAAAAAAAAAAAA" << endl;
@@ -133,7 +150,7 @@ unsigned short D1,D2;
 	cout << D1 << endl;
 	cout << D2 << endl;
 	res.close();*/
-	unsigned short points = 0;
+	/*unsigned short points = 0;
 	unsigned short n;
 		fstream Map;
 	Map.open("Map.dat", ios::in);
